@@ -8,8 +8,12 @@ public class Enemy : MonoBehaviour
     [SerializeField] private float enemySpd = 1.0f;
     public float EnemySpd
     {
-        get { return enemySpd; }
-        set { enemySpd = value; }
+        get { return enemySpd; }set { enemySpd = value; }
+    }
+    [SerializeField] private int enemyHitpoints = 1;
+    public int EnemyHitpoints
+    {
+        get { return enemyHitpoints; } set {  enemyHitpoints = value; }
     }
 
 
@@ -25,6 +29,7 @@ public class Enemy : MonoBehaviour
         EnemyMove();
     }
 
+    // Class Methods
     private void EnemyMove()
     {
         gameObject.GetComponent<Rigidbody>().velocity = Vector3.zero;
