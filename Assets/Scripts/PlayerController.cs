@@ -12,15 +12,26 @@ public class PlayerController : MonoBehaviour
         get { return playerHitPoints; }
         private set { playerHitPoints = value; }
     }
+    [SerializeField] private int numBullets = 10;
 
     // Components
     private Rigidbody playerRb;
+    private List<GameObject> pooledObjects;
+    public GameObject bulletPrefab;
 
     // Start is called before the first frame update
     void Start()
     {
         playerRb = GameObject.Find("Player").GetComponent<Rigidbody>();
         playerRb.freezeRotation = true;
+        pooledObjects = new List<GameObject>();
+        for (int i = 0; i < numBullets; i++)
+        {
+            GameObject obj = (GameObject)Instantiate(bulletPrefab);
+            obj.SetActive(false);
+            pooledObjects.Add(obj);
+            obj.transform.SetParent(this.transform);
+        }
     }
 
     // Update is called once per frame
@@ -29,12 +40,28 @@ public class PlayerController : MonoBehaviour
         PlayerMovement();
     }
 
+    // class methods
+
     private void PlayerMovement()
     {
         playerRb.velocity = new Vector3(0, playerRb.velocity.y, 0);
         float dirX = Input.GetAxisRaw("Horizontal");
         float dirZ = Input.GetAxisRaw("Vertical");
         playerRb.AddForce(new Vector3(moveSpd * dirX, 0, moveSpd * dirZ));
+    }
+
+    private void Fire()
+    {
+
+    }
+
+    private GameObject GetPooledObject()
+    {
+        for (int i = 0; i < pooledObjects.Count; i++)
+        {
+            if (!pooledObjects[i].activeInHierarchy) { return pooledObjects[i]; }
+        }
+        return null;
     }
 
     // Events
@@ -45,10 +72,5 @@ public class PlayerController : MonoBehaviour
             // PlayerHitPoints = PlayerHitPoints - 1;
             Debug.Log("Player Hit by Enemy");
         }
-    }
-
-    private void Fire()
-    {
-
     }
 }
