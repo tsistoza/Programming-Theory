@@ -38,6 +38,7 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         PlayerMovement();
+        Fire();
     }
 
     // class methods
@@ -52,7 +53,16 @@ public class PlayerController : MonoBehaviour
 
     private void Fire()
     {
-
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            GameObject bullet = GetPooledObject();
+            if (bullet != null)
+            {
+                bullet.SetActive(true);
+                bullet.transform.position = gameObject.transform.position;
+                bullet.GetComponent<Rigidbody>().AddForce(Vector3.up * 10);
+            }
+        }
     }
 
     private GameObject GetPooledObject()
