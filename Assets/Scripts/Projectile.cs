@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Projectile : MonoBehaviour
@@ -16,6 +17,16 @@ public class Projectile : MonoBehaviour
         {
             yield return new WaitForSeconds(10);
             gameObject.SetActive(false);
+        }
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Enemy"))
+        {
+            Debug.Log("Enemy Killed");
+            gameObject.SetActive(false);
+            Destroy(collision.gameObject);
         }
     }
 }

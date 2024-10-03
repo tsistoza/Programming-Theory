@@ -1,7 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
+/// <summary>
+/// All Enemies will inherit this class
+/// </summary>
 public class Enemy : MonoBehaviour
 {
     // Modifiers
@@ -15,6 +19,8 @@ public class Enemy : MonoBehaviour
     {
         get { return enemyHitpoints; } set {  enemyHitpoints = value; }
     }
+
+    // Variables
 
 
     // Start is called before the first frame update
