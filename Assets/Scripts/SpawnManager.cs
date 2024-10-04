@@ -42,18 +42,23 @@ public class SpawnManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        SpawnEnemyWave(GetRandomEnemy());
+        SpawnEnemyWave();
     }
-    private void SpawnEnemyWave(GameObject enemyPrefab)
+    private void SpawnEnemyWave()
     {
         //@TODO Randomize enemies so that it doesnt spawn the same slimes over and over
         EnemyCount = GameObject.FindGameObjectsWithTag("Enemy").Count();
         if (enemyCount <= 0)
         {
             // Wait for user player pickup then spawn
-            Instantiate(enemyPrefab, GetSpawnPos(), enemyPrefab.transform.rotation);
-            /*for (int i = 0; i < (int)(GameManager.Instance.waveNumber * spawnRate); i++)
+            for (int i = 0; i < 5; i++)
             {
+                GameObject enemyPrefab = GetRandomEnemy();
+                Instantiate(enemyPrefab, GetSpawnPos(), enemyPrefab.transform.rotation);
+            }
+            /*for (int i = 0; i < (int)(GameManager.Instance.WaveNumber * spawnRate); i++)
+            {
+                Instantiate(enemyPrefab, GetSpawnPos(), enemyPrefab.transform.rotation);
             }*/
         }
     }
@@ -77,7 +82,7 @@ public class SpawnManager : MonoBehaviour
             float zUpper = GameObject.Find("ZUpperBound").transform.position.z;
             float zLower = GameObject.Find("ZLowerBound").transform.position.z;
             spawnPos = new Vector3(Random.Range(xLower, xUpper),
-                            -200,
+                            -155,
                             Random.Range(zLower, zUpper));
         }
         return spawnPos;

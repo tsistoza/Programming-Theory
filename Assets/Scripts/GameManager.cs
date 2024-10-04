@@ -12,6 +12,7 @@ public class GameManager : MonoBehaviour
 
     // Variables
     private int waveNumber;
+    public int WaveNumber { get; private set; }
     private Enemy enemyScript;
 
     private void Awake()

@@ -38,7 +38,8 @@ public class Enemy : MonoBehaviour
     // Class Methods
     private void EnemyMove()
     {
-        gameObject.GetComponent<Rigidbody>().velocity = Vector3.zero;
+        Rigidbody enemyRb = gameObject.GetComponent<Rigidbody>();
+        enemyRb.velocity = new Vector3(0, enemyRb.velocity.y, 0);
         Vector3 playerPos = GameObject.Find("Player").transform.position;
         Vector3 enemyMoveForce = new Vector3(
             playerPos.x - gameObject.transform.position.x,
