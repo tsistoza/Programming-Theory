@@ -10,14 +10,17 @@ public class GameManager : MonoBehaviour
     // Components
     [SerializeField] private TextMeshProUGUI waveNumberText;
     [SerializeField] private GameObject powerUp;
-    private Enemy enemyScript;
 
     // Variables
     private int waveNumber;
     public int WaveNumber { get; private set; }
     private bool pickedUpPowerUp;
-    public bool PickedUpPowerUp { get; set; }
-    public bool interWave;
+    public bool PickedUpPowerUp
+    {
+        get { return pickedUpPowerUp; }
+        set { pickedUpPowerUp = value; }
+    }
+    public bool spawnedPowerUps;
 
     private void Awake()
     {
@@ -32,32 +35,29 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        enemyScript = GameObject.Find("Enemy").GetComponent<Enemy>();
         waveNumber = 1;
         waveNumberText.text = $"Wave: {waveNumber}";
-        interWave = false;
         pickedUpPowerUp = false;
+        spawnedPowerUps = false;
+        SpawnManager.Instance.SpawnEnemyWave();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (SpawnManager.Instance.EnemyCount == 0 && !interWave)
+        if (SpawnManager.Instance.EnemyCount == 0 && !spawnedPowerUps)
         {
-            interWave = true;
             // Start Next Wave
             // Spawn Pickups, Upgrades in the middle of the map
+            SpawnManager.Instance.SpawnPowerUps();
             waveNumber++;
             waveNumberText.text = $"Wave: {waveNumber}";
         }
-    }
-    
-    private void NextWave()
-    {
-        if (interWave && PickedUpPowerUp)
+        if (SpawnManager.Instance.EnemyCount == 0 && PickedUpPowerUp)
         {
-            Debug.Log("Starting Next Round\n");
-            interWave = false;
+            Debug.Log("Spawn Enemy Wave");
+            PickedUpPowerUp = false;
+            SpawnManager.Instance.SpawnEnemyWave();
         }
     }
 }

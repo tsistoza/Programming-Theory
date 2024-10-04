@@ -24,7 +24,7 @@ public class SpawnManager : MonoBehaviour
     public int EnemyCount
     {
         get { return enemyCount; }
-        private set { enemyCount = value; }
+        set { enemyCount = value; }
     }
 
     private void Awake()
@@ -37,26 +37,19 @@ public class SpawnManager : MonoBehaviour
         Instance = this;
     }
 
-    // Start is called before the first frame update
-    void Start()
+    private void Update()
     {
-
+        EnemyCount = GameObject.FindGameObjectsWithTag("Enemy").Count();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        SpawnPowerUps();
-        SpawnEnemyWave();
-    }
-    private void SpawnEnemyWave()
+
+    public void SpawnEnemyWave()
     {
         //@TODO Randomize enemies so that it doesnt spawn the same slimes over and over
-        EnemyCount = GameObject.FindGameObjectsWithTag("Enemy").Count();
-        if (enemyCount <= 0 && GameManager.Instance.PickedUpPowerUp)
+        if (enemyCount <= 0 && !GameManager.Instance.PickedUpPowerUp)
         {
             // Wait for user player pickup then spawn
-            for (int i = 0; i < 5; i++)
+            for (int i = 0; i < 1; i++)
             {
                 GameObject enemyPrefab = GetRandomEnemy();
                 Instantiate(enemyPrefab, GetSpawnPos(), enemyPrefab.transform.rotation);
@@ -109,12 +102,9 @@ public class SpawnManager : MonoBehaviour
         return false;
     }
 
-    private void SpawnPowerUps()
+    public void SpawnPowerUps()
     {
-        if (enemyCount <= 0 && GameManager.Instance.interWave)
-        {
-            Instantiate(powerUps[0], powerUps[0].transform.position, powerUps[0].transform.rotation);
-            GameManager.Instance.interWave = false;
-        }
+        Instantiate(powerUps[0], powerUps[0].transform.position, powerUps[0].transform.rotation);
+        GameManager.Instance.spawnedPowerUps = true;
     }
 }
