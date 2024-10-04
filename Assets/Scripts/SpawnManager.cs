@@ -4,6 +4,9 @@ using System.Collections.Specialized;
 using System.Linq;
 using UnityEngine;
 
+/// <summary>
+/// Spawn Manager is in charge of spawning objects (Enemies, Powerups)
+/// </summary>
 public class SpawnManager : MonoBehaviour
 {
     public static SpawnManager Instance { get; private set; }
@@ -14,6 +17,7 @@ public class SpawnManager : MonoBehaviour
 
     // Components
     [SerializeField] private List<GameObject> enemies = new List<GameObject>();
+    [SerializeField] private List<GameObject> powerUps = new List<GameObject>();
 
     // Variables
     private int enemyCount;
@@ -42,13 +46,14 @@ public class SpawnManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        SpawnPowerUps();
         SpawnEnemyWave();
     }
     private void SpawnEnemyWave()
     {
         //@TODO Randomize enemies so that it doesnt spawn the same slimes over and over
         EnemyCount = GameObject.FindGameObjectsWithTag("Enemy").Count();
-        if (enemyCount <= 0)
+        if (enemyCount <= 0 && GameManager.Instance.PickedUpPowerUp)
         {
             // Wait for user player pickup then spawn
             for (int i = 0; i < 5; i++)
@@ -102,5 +107,14 @@ public class SpawnManager : MonoBehaviour
             return true;
         }
         return false;
+    }
+
+    private void SpawnPowerUps()
+    {
+        if (enemyCount <= 0 && GameManager.Instance.interWave)
+        {
+            Instantiate(powerUps[0], powerUps[0].transform.position, powerUps[0].transform.rotation);
+            GameManager.Instance.interWave = false;
+        }
     }
 }

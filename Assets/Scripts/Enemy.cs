@@ -20,9 +20,6 @@ public class Enemy : MonoBehaviour
         get { return enemyHitpoints; } set {  enemyHitpoints = value; }
     }
 
-    // Variables
-
-
     // Start is called before the first frame update
     void Start()
     {
