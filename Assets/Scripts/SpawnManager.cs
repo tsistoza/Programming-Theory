@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Linq;
 using UnityEngine;
 
@@ -9,6 +10,7 @@ public class SpawnManager : MonoBehaviour
 
     // Modifiers
     [SerializeField] private float spawnRate;
+    [SerializeField] private float spawnRange;
 
     // Components
     [SerializeField] private List<GameObject> enemies = new List<GameObject>();
@@ -34,23 +36,22 @@ public class SpawnManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        EnemyCount = GameObject.FindGameObjectsWithTag("Enemy").Count();
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        EnemyCount = GameObject.FindGameObjectsWithTag("Enemy").Count();
         SpawnEnemyWave(GetRandomEnemy());
     }
     private void SpawnEnemyWave(GameObject enemyPrefab)
     {
         //@TODO Randomize enemies so that it doesnt spawn the same slimes over and over
-        enemyCount = GameObject.FindGameObjectsWithTag("Enemy").Count();
+        EnemyCount = GameObject.FindGameObjectsWithTag("Enemy").Count();
         if (enemyCount <= 0)
         {
             // Wait for user player pickup then spawn
-            Instantiate(enemyPrefab);
+            Instantiate(enemyPrefab, GetSpawnPos(), enemyPrefab.transform.rotation);
             /*for (int i = 0; i < (int)(GameManager.Instance.waveNumber * spawnRate); i++)
             {
             }*/
@@ -60,5 +61,41 @@ public class SpawnManager : MonoBehaviour
     private GameObject GetRandomEnemy()
     {
         return enemies[Random.Range(0, enemies.Count-1)];
+    }
+
+    /// <summary>
+    /// Generate Random Position around the arena, not near player
+    /// </summary>
+    /// <returns></returns>
+    public Vector3 GetSpawnPos()
+    {
+        Vector3 spawnPos = GameObject.Find("Player").transform.position;
+        while (!PlayerIsOutOfRange(spawnPos))
+        {
+            float xUpper = GameObject.Find("XUpperBound").transform.position.x;
+            float xLower = GameObject.Find("XLowerBound").transform.position.x;
+            float zUpper = GameObject.Find("ZUpperBound").transform.position.z;
+            float zLower = GameObject.Find("ZLowerBound").transform.position.z;
+            spawnPos = new Vector3(Random.Range(xLower, xUpper),
+                            -200,
+                            Random.Range(zLower, zUpper));
+        }
+        return spawnPos;
+    }
+
+    public bool PlayerIsOutOfRange(Vector3 spawnPos)
+    {
+        Vector3 playerPos = GameObject.Find("Player").transform.position;
+        // Check if spawnPos is within the spawnRange from the player
+        if (spawnPos.x < playerPos.x - spawnRange || spawnPos.x > playerPos.x + spawnRange)
+        {
+            return true;
+            
+        }
+        if (spawnPos.z < playerPos.z - spawnRange || spawnPos.z > playerPos.z + spawnRange)
+        {
+            return true;
+        }
+        return false;
     }
 }
