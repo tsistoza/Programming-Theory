@@ -18,7 +18,7 @@ public class PlayerController : MonoBehaviour
     private Rigidbody playerRb;
     private List<GameObject> pooledObjects;
     public GameObject bulletPrefab;
-
+     
     // Start is called before the first frame update
     void Start()
     {
