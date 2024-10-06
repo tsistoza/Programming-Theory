@@ -14,7 +14,7 @@ public class Enemy : MonoBehaviour
     {
         get { return enemySpd; }set { enemySpd = value; }
     }
-    [SerializeField] private int enemyHitpoints = 1;
+    [SerializeField] private int enemyHitpoints = 2;
     public int EnemyHitpoints
     {
         get { return enemyHitpoints; } set {  enemyHitpoints = value; }
@@ -44,5 +44,14 @@ public class Enemy : MonoBehaviour
             playerPos.z - gameObject.transform.position.z);
         gameObject.GetComponent<Rigidbody>().freezeRotation = true;
         gameObject.GetComponent<Rigidbody>().AddForce(enemyMoveForce.normalized * EnemySpd);
+    }
+
+    public void DealDamage()
+    {
+        EnemyHitpoints--;
+        if (enemyHitpoints == 0)
+        {
+            Destroy(gameObject);
+        }
     }
 }

@@ -8,8 +8,6 @@ public class AimController : MonoBehaviour
     private Camera mainCam;
     public LayerMask groundMask;
 
-    // Variables
-    private Vector3 mousePos;
 
     // Start is called before the first frame update
     void Start()
@@ -29,6 +27,7 @@ public class AimController : MonoBehaviour
         }
     }
 
+    // Get aim direction from 
     public Vector3 GetAimDirection ()
     {
         Vector3 position = GetMousePosition();

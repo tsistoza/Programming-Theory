@@ -26,7 +26,7 @@ public class Projectile : MonoBehaviour
         {
             Debug.Log("Enemy Killed");
             gameObject.SetActive(false);
-            Destroy(collision.gameObject);
+            collision.gameObject.GetComponent<Enemy>().DealDamage();
         }
     }
 }

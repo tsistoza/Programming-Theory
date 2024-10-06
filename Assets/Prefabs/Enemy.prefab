@@ -120,7 +120,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemySpd: 30
-  enemyHitpoints: 1
+  enemyHitpoints: 2
 --- !u!54 &7144406486698074613
 Rigidbody:
   m_ObjectHideFlags: 0
