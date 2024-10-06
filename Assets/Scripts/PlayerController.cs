@@ -20,14 +20,16 @@ public class PlayerController : MonoBehaviour
     public GameObject bulletPrefab;
     private ObjectPooler poolScript;
     private AimController aimScript;
+    private GameObject bulletTransform;
      
     // Start is called before the first frame update
     void Start()
     {
         playerRb = GameObject.Find("Player").GetComponent<Rigidbody>();
         playerRb.freezeRotation = true;
-        poolScript = gameObject.GetComponent<ObjectPooler>();
+        poolScript = GameObject.Find("ObjectPooler").GetComponent<ObjectPooler>();
         aimScript = gameObject.GetComponent<AimController>();
+        bulletTransform = GameObject.Find("Bullet Transform");
         poolScript.CreatePooledObjects(bulletPrefab, numBullets);
     }
 
@@ -49,10 +51,11 @@ public class PlayerController : MonoBehaviour
     }
     private void Fire()
     {
+        transform.forward = aimScript.GetAimDirection().normalized;
         if (Input.GetMouseButtonDown(0))
         {
             GameObject bullet = poolScript.GetPooledObject();
-            bullet.transform.position = transform.position;
+            bullet.transform.position = bulletTransform.transform.position;
             bullet.SetActive(true);
             Debug.Log(aimScript.GetAimDirection());
             bullet.GetComponent<Rigidbody>().AddForce(aimScript.GetAimDirection()*bulletSpd);
