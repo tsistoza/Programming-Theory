@@ -13,25 +13,22 @@ public class PlayerController : MonoBehaviour
         private set { playerHitPoints = value; }
     }
     [SerializeField] private int numBullets = 10;
+    [SerializeField] private int bulletSpd = 1;
 
     // Components
     private Rigidbody playerRb;
-    private List<GameObject> pooledObjects;
     public GameObject bulletPrefab;
+    private ObjectPooler poolScript;
+    private AimController aimScript;
      
     // Start is called before the first frame update
     void Start()
     {
         playerRb = GameObject.Find("Player").GetComponent<Rigidbody>();
         playerRb.freezeRotation = true;
-        pooledObjects = new List<GameObject>();
-        for (int i = 0; i < numBullets; i++)
-        {
-            GameObject obj = (GameObject)Instantiate(bulletPrefab);
-            obj.SetActive(false);
-            pooledObjects.Add(obj);
-            obj.transform.SetParent(this.transform);
-        }
+        poolScript = gameObject.GetComponent<ObjectPooler>();
+        aimScript = gameObject.GetComponent<AimController>();
+        poolScript.CreatePooledObjects(bulletPrefab, numBullets);
     }
 
     // Update is called once per frame
@@ -50,28 +47,16 @@ public class PlayerController : MonoBehaviour
         float dirZ = Input.GetAxisRaw("Vertical");
         playerRb.AddForce(new Vector3(moveSpd * dirX, 0, moveSpd * dirZ));
     }
-
     private void Fire()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetMouseButtonDown(0))
         {
-            GameObject bullet = GetPooledObject();
-            if (bullet != null)
-            {
-                bullet.SetActive(true);
-                bullet.transform.position = gameObject.transform.position;
-                bullet.GetComponent<Rigidbody>().AddForce(Vector3.up * 10);
-            }
+            GameObject bullet = poolScript.GetPooledObject();
+            bullet.transform.position = transform.position;
+            bullet.SetActive(true);
+            Debug.Log(aimScript.GetAimDirection());
+            bullet.GetComponent<Rigidbody>().AddForce(aimScript.GetAimDirection()*bulletSpd);
         }
-    }
-
-    private GameObject GetPooledObject()
-    {
-        for (int i = 0; i < pooledObjects.Count; i++)
-        {
-            if (!pooledObjects[i].activeInHierarchy) { return pooledObjects[i]; }
-        }
-        return null;
     }
 
     // Events

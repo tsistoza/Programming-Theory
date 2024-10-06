@@ -4,20 +4,17 @@ using UnityEngine;
 
 public class AimController : MonoBehaviour
 {
+    // Components
     private Camera mainCam;
-    private Vector3 mousePos;
     public LayerMask groundMask;
+
+    // Variables
+    private Vector3 mousePos;
 
     // Start is called before the first frame update
     void Start()
     {
         mainCam = GameObject.Find("Main Camera").GetComponent<Camera>();
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        Test();
     }
 
     private Vector3 GetMousePosition()
@@ -32,15 +29,16 @@ public class AimController : MonoBehaviour
         }
     }
 
-    private void Aim ()
+    public Vector3 GetAimDirection ()
     {
         Vector3 position = GetMousePosition();
         if (position != Vector3.zero)
         {
-            Vector3 direction = position - transform.position;
-            direction.y = -192;
-            transform.forward = direction;
+            Vector3 bulletDirection = position - transform.position;
+            bulletDirection.y = 0;
+            return bulletDirection;
         }
+        return Vector3.zero;
     }
     
     // Visualizing RayCasting
