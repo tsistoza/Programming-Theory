@@ -10,14 +10,14 @@ public class Enemy : MonoBehaviour
 {
     // Modifiers
     [SerializeField] private float enemySpd = 1.0f;
-    public float EnemySpd
-    {
-        get { return enemySpd; }set { enemySpd = value; }
+    public float EnemySpd { 
+        get { return enemySpd; }
+        set { enemySpd = value; } 
     }
     [SerializeField] private int enemyHitpoints = 2;
-    public int EnemyHitpoints
-    {
-        get { return enemyHitpoints; } set {  enemyHitpoints = value; }
+    public int EnemyHitpoints {
+        get { return enemyHitpoints; }
+        set { enemyHitpoints = value; } 
     }
 
     // Start is called before the first frame update
@@ -52,6 +52,16 @@ public class Enemy : MonoBehaviour
         if (enemyHitpoints == 0)
         {
             Destroy(gameObject);
+        }
+    }
+
+    public void SetHealth(int index)
+    {
+        switch(index)
+        {
+            case 1: EnemyHitpoints = 2; break;
+            case 2: EnemyHitpoints = 3; break;
+            default: EnemyHitpoints = 1; break;
         }
     }
 }

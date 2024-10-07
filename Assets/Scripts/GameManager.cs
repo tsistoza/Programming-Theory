@@ -45,19 +45,32 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (SpawnManager.Instance.EnemyCount == 0 && !spawnedPowerUps)
+        TransitionHandler();
+    }
+
+    private void TransitionHandler()
+    {
+        if (SpawnManager.Instance.EnemyCount == 0 && isInUpgradeWave() == 0)
         {
-            // Start Next Wave
-            // Spawn Pickups, Upgrades in the middle of the map
             SpawnManager.Instance.SpawnPowerUps();
             waveNumber++;
             waveNumberText.text = $"Wave: {waveNumber}";
-        }
-        if (SpawnManager.Instance.EnemyCount == 0 && PickedUpPowerUp)
+        } else if (SpawnManager.Instance.EnemyCount == 0 && isInUpgradeWave() == 2)
         {
-            Debug.Log("Spawn Enemy Wave");
-            PickedUpPowerUp = false;
+            spawnedPowerUps = false;
+            pickedUpPowerUp = false;
             SpawnManager.Instance.SpawnEnemyWave();
         }
+    }
+
+    private int isInUpgradeWave()
+    {
+        if (!spawnedPowerUps && !PickedUpPowerUp) { return 0; } // You are in an attack wave
+        // else if(spawnedPowerUps && !PickedUpPowerUp) { return 1; } // You are in an upgrade wave
+        else if(spawnedPowerUps && PickedUpPowerUp) // You are exiting an upgrade wave set conditions to default false
+        {
+            return 2;
+        }
+        return -1; // Unknown Wave
     }
 }

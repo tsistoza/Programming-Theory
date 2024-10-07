@@ -51,8 +51,9 @@ public class SpawnManager : MonoBehaviour
             // Wait for user player pickup then spawn
             for (int i = 0; i < 1; i++)
             {
-                GameObject enemyPrefab = GetRandomEnemy();
-                Instantiate(enemyPrefab, GetSpawnPos(), enemyPrefab.transform.rotation);
+                (int index, GameObject enemyPrefab) = GetRandomEnemy();
+                GameObject enemy = Instantiate(enemyPrefab, GetSpawnPos(), enemyPrefab.transform.rotation);
+                enemy.GetComponent<Enemy>().SetHealth(index);
             }
             /*for (int i = 0; i < (int)(GameManager.Instance.WaveNumber * spawnRate); i++)
             {
@@ -61,9 +62,10 @@ public class SpawnManager : MonoBehaviour
         }
     }
 
-    private GameObject GetRandomEnemy()
+    private (int index, GameObject enemy) GetRandomEnemy()
     {
-        return enemies[Random.Range(0, enemies.Count-1)];
+        int index = Random.Range(0, enemies.Count - 1);
+        return (index, enemies[index]);
     }
 
     /// <summary>
