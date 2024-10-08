@@ -20,7 +20,7 @@ public class PlayerController : MonoBehaviour
     public GameObject bulletPrefab;
     private ObjectPooler poolScript;
     private AimController aimScript;
-    private GameObject bulletTransform;
+    [SerializeField] private GameObject bulletTransform;
      
     // Start is called before the first frame update
     void Start()
@@ -36,22 +36,26 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        PlayerMovement();
         Fire();
+    }
+    private void FixedUpdate()
+    {
+        PlayerMovement();
     }
 
     // class methods
 
     private void PlayerMovement()
     {
-        playerRb.velocity = new Vector3(0, playerRb.velocity.y, 0);
-        float dirX = Input.GetAxisRaw("Horizontal");
-        float dirZ = Input.GetAxisRaw("Vertical");
-        playerRb.AddForce(new Vector3(moveSpd * dirX, 0, moveSpd * dirZ));
+        float dirX = Input.GetAxis("Horizontal");
+        float dirZ = Input.GetAxis("Vertical");
+        playerRb.velocity = new Vector3(dirX*moveSpd, playerRb.velocity.y, dirZ*moveSpd);
     }
     private void Fire()
     {
-        transform.forward = aimScript.GetAimDirection().normalized;
+        Vector3 aim = aimScript.GetAimDirection().normalized;
+        transform.forward = aim;
+        bulletTransform.transform.position = transform.position + aim*2;
         if (Input.GetMouseButtonDown(0))
         {
             GameObject bullet = poolScript.GetPooledObject();

@@ -65,7 +65,6 @@ public class SpawnManager : MonoBehaviour
     private (int index, GameObject enemy) GetRandomEnemy()
     {
         int index = Random.Range(0, enemies.Count);
-        Debug.Log(index);
         return (index, enemies[index]);
     }
 
