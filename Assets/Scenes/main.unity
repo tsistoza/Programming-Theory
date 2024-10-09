@@ -1091,6 +1091,10 @@ PrefabInstance:
       propertyPath: bulletTransform
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 5986443548232733806, guid: 01472830b345e874595d1b7cdb3ab7fd, type: 3}
+      propertyPath: damagePerBullet
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 9061857605629253155, guid: 01472830b345e874595d1b7cdb3ab7fd, type: 3}
       propertyPath: m_Constraints
       value: 0

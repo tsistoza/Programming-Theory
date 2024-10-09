@@ -14,6 +14,11 @@ public class PlayerController : MonoBehaviour
     }
     [SerializeField] private int numBullets = 10;
     [SerializeField] private int bulletSpd = 1;
+    [SerializeField] private int damagePerBullet = 1;
+    public int DamagePerBullet { 
+        get { return damagePerBullet; } 
+        private set {  damagePerBullet = value; }
+    }
 
     // Components
     private Rigidbody playerRb;
@@ -22,7 +27,6 @@ public class PlayerController : MonoBehaviour
     private AimController aimScript;
     [SerializeField] private GameObject bulletTransform;
      
-    // Start is called before the first frame update
     void Start()
     {
         playerRb = GameObject.Find("Player").GetComponent<Rigidbody>();
@@ -33,7 +37,6 @@ public class PlayerController : MonoBehaviour
         poolScript.CreatePooledObjects(bulletPrefab, numBullets);
     }
 
-    // Update is called once per frame
     void Update()
     {
         Fire();

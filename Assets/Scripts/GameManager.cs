@@ -13,7 +13,10 @@ public class GameManager : MonoBehaviour
 
     // Variables
     private int waveNumber;
-    public int WaveNumber { get; private set; }
+    public int WaveNumber {
+        get { return waveNumber; } 
+        private set {  waveNumber = value; }
+    }
     private bool pickedUpPowerUp;
     public bool PickedUpPowerUp
     {

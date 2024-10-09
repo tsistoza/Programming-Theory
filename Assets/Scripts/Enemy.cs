@@ -20,13 +20,14 @@ public class Enemy : MonoBehaviour
         set { enemyHitpoints = value; } 
     }
 
-    // Start is called before the first frame update
+    // Components
+    [SerializeField] private PlayerController controlScript;
+
     void Start()
     {
-
+       controlScript = GameObject.Find("Player").GetComponent<PlayerController>();
     }
 
-    // Update is called once per frame
     void FixedUpdate()
     {
         EnemyMove();
@@ -49,8 +50,8 @@ public class Enemy : MonoBehaviour
 
     public void DealDamage()
     {
-        EnemyHitpoints--;
-        if (enemyHitpoints == 0)
+        EnemyHitpoints -= controlScript.DamagePerBullet;
+        if (enemyHitpoints <= 0)
         {
             Destroy(gameObject);
         }

@@ -12,8 +12,8 @@ public class SpawnManager : MonoBehaviour
     public static SpawnManager Instance { get; private set; }
 
     // Modifiers
-    [SerializeField] private float spawnRate;
-    [SerializeField] private float spawnRange;
+    [SerializeField] private float spawnRate = 5;
+    [SerializeField] private float spawnRange = 9;
 
     // Components
     [SerializeField] private List<GameObject> enemies = new List<GameObject>();
@@ -49,16 +49,12 @@ public class SpawnManager : MonoBehaviour
         if (enemyCount <= 0 && !GameManager.Instance.PickedUpPowerUp)
         {
             // Wait for user player pickup then spawn
-            for (int i = 0; i < 5; i++)
+            for (int i = 0; i < (int)(GameManager.Instance.WaveNumber * spawnRate); i++)
             {
                 (int index, GameObject enemyPrefab) = GetRandomEnemy();
                 GameObject clone = Instantiate(enemyPrefab, GetSpawnPos(), enemyPrefab.transform.rotation);
                 clone.GetComponent<Enemy>().SetEnemyWithId(index);
             }
-            /*for (int i = 0; i < (int)(GameManager.Instance.WaveNumber * spawnRate); i++)
-            {
-                Instantiate(enemyPrefab, GetSpawnPos(), enemyPrefab.transform.rotation);
-            }*/
         }
     }
 
