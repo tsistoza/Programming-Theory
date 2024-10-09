@@ -62,7 +62,8 @@ public class PlayerController : MonoBehaviour
             bullet.transform.position = bulletTransform.transform.position;
             bullet.SetActive(true);
             Debug.Log(aimScript.GetAimDirection());
-            bullet.GetComponent<Rigidbody>().AddForce(aimScript.GetAimDirection()*bulletSpd);
+            bullet.GetComponent<Rigidbody>().velocity = aimScript.GetAimDirection().normalized * bulletSpd;
+            //bullet.GetComponent<Rigidbody>().AddForce(aimScript.GetAimDirection().normalized*bulletSpd, ForceMode.Impulse);
         }
     }
 

@@ -28,5 +28,6 @@ public class Projectile : MonoBehaviour
             gameObject.SetActive(false);
             collision.gameObject.GetComponent<Enemy>().DealDamage();
         }
+        if (collision.gameObject.CompareTag("Walls")) gameObject.SetActive(false);
     }
 }

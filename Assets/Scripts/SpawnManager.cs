@@ -53,7 +53,7 @@ public class SpawnManager : MonoBehaviour
             {
                 (int index, GameObject enemyPrefab) = GetRandomEnemy();
                 GameObject clone = Instantiate(enemyPrefab, GetSpawnPos(), enemyPrefab.transform.rotation);
-                clone.GetComponent<Enemy>().SetHealth(index);
+                clone.GetComponent<Enemy>().SetEnemyWithId(index);
             }
             /*for (int i = 0; i < (int)(GameManager.Instance.WaveNumber * spawnRate); i++)
             {

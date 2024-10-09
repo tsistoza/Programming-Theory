@@ -44,7 +44,7 @@ public class Enemy : MonoBehaviour
             0,
             playerPos.z - gameObject.transform.position.z);
         gameObject.GetComponent<Rigidbody>().freezeRotation = true;
-        gameObject.GetComponent<Rigidbody>().AddForce(enemyMoveForce.normalized * EnemySpd);
+        gameObject.GetComponent<Rigidbody>().AddForce(enemyMoveForce.normalized * EnemySpd, ForceMode.Impulse);
     }
 
     public void DealDamage()
@@ -56,13 +56,13 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    public void SetHealth(int index)
+    public void SetEnemyWithId(int index)
     {
         switch(index)
         {
-            case 1: EnemyHitpoints = 2; break;
-            case 2: EnemyHitpoints = 3; break;
-            default: EnemyHitpoints = 1; break;
+            case 1: EnemyHitpoints = 2; EnemySpd = 4; break;
+            case 2: EnemyHitpoints = 3; EnemySpd = 4; break;
+            default: EnemyHitpoints = 1; EnemySpd = 8; break;
         }
     }
 }
