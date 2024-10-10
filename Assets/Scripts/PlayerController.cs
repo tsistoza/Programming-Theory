@@ -19,6 +19,7 @@ public class PlayerController : MonoBehaviour
         get { return damagePerBullet; } 
         private set {  damagePerBullet = value; }
     }
+    [SerializeField] private bool cooldownInvicibility;
 
     // Components
     private Rigidbody playerRb;
@@ -70,13 +71,29 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    private void PlayerLife()
+    {
+        PlayerHitPoints--;
+        if (PlayerHitPoints <= 0)
+        {
+            GameManager.Instance.GameOver();
+        }
+    }
+
     // Events
     private void OnCollisionEnter(Collision collision)
     {
-        if(collision.gameObject.CompareTag("Enemy"))
+        if(collision.gameObject.CompareTag("Enemy") && !cooldownInvicibility)
         {
-            // PlayerHitPoints = PlayerHitPoints - 1;
+            PlayerLife();
+            cooldownInvicibility = true;
+            StartCoroutine(InvicibilityCooldown());
             Debug.Log("Player Hit by Enemy");
         }
+    }
+    IEnumerator InvicibilityCooldown()
+    {
+        yield return new WaitForSeconds(5);
+        cooldownInvicibility = false;
     }
 }
