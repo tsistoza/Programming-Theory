@@ -2,7 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
+/// <summary>
+/// Game Manager is used to control the games state
+/// </summary>
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance {  get; private set; }
@@ -10,6 +14,7 @@ public class GameManager : MonoBehaviour
     // Components
     [SerializeField] private TextMeshProUGUI waveNumberText;
     [SerializeField] private GameObject powerUp;
+    [SerializeField] private TextMeshProUGUI gameOverText;
 
     // Variables
     private int waveNumber;
@@ -75,5 +80,10 @@ public class GameManager : MonoBehaviour
             return 2;
         }
         return -1; // Unknown Wave
+    }
+
+    public void GameOver ()
+    {
+        gameOverText.gameObject.SetActive(true);
     }
 }
