@@ -13,6 +13,7 @@ public class Upgrade : MonoBehaviour
         {
             GameManager.Instance.PickedUpPowerUp = true;
             Destroy(gameObject);
+            SpawnManager.Instance.DestroyPowerUps();
         }
     }
 }

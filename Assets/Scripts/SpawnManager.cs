@@ -18,6 +18,8 @@ public class SpawnManager : MonoBehaviour
     // Components
     [SerializeField] private List<GameObject> enemies = new List<GameObject>();
     [SerializeField] private List<GameObject> powerUps = new List<GameObject>();
+    [SerializeField] private GameObject powerUpSpawn;
+    [SerializeField] private List<GameObject> spawnedPowerUps = new List<GameObject>();
 
     // Variables
     private int enemyCount;
@@ -49,7 +51,7 @@ public class SpawnManager : MonoBehaviour
         if (enemyCount <= 0 && !GameManager.Instance.PickedUpPowerUp)
         {
             // Wait for user player pickup then spawn
-            for (int i = 0; i < (int)(GameManager.Instance.WaveNumber * spawnRate); i++)
+            for (int i = 0; i < 1/*(int)(GameManager.Instance.WaveNumber * spawnRate) */; i++)
             {
                 (int index, GameObject enemyPrefab) = GetRandomEnemy();
                 GameObject clone = Instantiate(enemyPrefab, GetSpawnPos(), enemyPrefab.transform.rotation);
@@ -102,7 +104,21 @@ public class SpawnManager : MonoBehaviour
 
     public void SpawnPowerUps()
     {
-        Instantiate(powerUps[0], powerUps[0].transform.position, powerUps[0].transform.rotation);
+        for (int i=0; i<3; i++)
+        {
+            spawnedPowerUps.Add(
+                Instantiate(powerUps[i], 
+                            powerUpSpawn.transform.position + Vector3.right * i * 10, 
+                            powerUps[i].transform.rotation));
+        }
         GameManager.Instance.spawnedPowerUps = true;
+    }
+
+    public void DestroyPowerUps()
+    {
+        foreach(GameObject powerUp in spawnedPowerUps)
+        {
+            Destroy(powerUp);
+        }
     }
 }
