@@ -30,7 +30,10 @@ public class Enemy : MonoBehaviour
 
     void FixedUpdate()
     {
-        EnemyMove();
+        if (!GameManager.Instance.m_gameOver)
+        {
+            EnemyMove();
+        }
     }
 
 

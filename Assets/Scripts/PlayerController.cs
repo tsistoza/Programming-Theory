@@ -40,11 +40,17 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        Fire();
+        if (!GameManager.Instance.m_gameOver)
+        {
+            Fire();
+        }
     }
     private void FixedUpdate()
     {
-        PlayerMovement();
+        if (!GameManager.Instance.m_gameOver)
+        {
+            PlayerMovement();
+        }
     }
 
     // class methods
@@ -76,6 +82,7 @@ public class PlayerController : MonoBehaviour
         PlayerHitPoints--;
         if (PlayerHitPoints <= 0)
         {
+            GameManager.Instance.m_gameOver = true;
             GameManager.Instance.GameOver();
         }
     }

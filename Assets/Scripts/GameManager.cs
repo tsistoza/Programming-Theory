@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 /// <summary>
@@ -14,7 +15,8 @@ public class GameManager : MonoBehaviour
     // Components
     [SerializeField] private TextMeshProUGUI waveNumberText;
     [SerializeField] private GameObject powerUp;
-    [SerializeField] private TextMeshProUGUI gameOverText;
+    [SerializeField] private GameObject gameOver;
+    [SerializeField] private Button restartButton;
 
     // Variables
     private int waveNumber;
@@ -29,6 +31,7 @@ public class GameManager : MonoBehaviour
         set { pickedUpPowerUp = value; }
     }
     public bool spawnedPowerUps;
+    public bool m_gameOver;
 
     private void Awake()
     {
@@ -47,6 +50,7 @@ public class GameManager : MonoBehaviour
         waveNumberText.text = $"Wave: {waveNumber}";
         pickedUpPowerUp = false;
         spawnedPowerUps = false;
+        m_gameOver = false;
         SpawnManager.Instance.SpawnEnemyWave();
     }
 
@@ -84,6 +88,12 @@ public class GameManager : MonoBehaviour
 
     public void GameOver ()
     {
-        gameOverText.gameObject.SetActive(true);
+        gameOver.SetActive(true);
+        // Pause Background
+    }
+
+    public void Restart()
+    {
+        SceneManager.LoadScene(0);
     }
 }
