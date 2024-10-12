@@ -59,14 +59,4 @@ public class Enemy : MonoBehaviour
             Destroy(gameObject);
         }
     }
-
-    public void SetEnemyWithId(int index)
-    {
-        switch(index)
-        {
-            case 1: EnemyHitpoints = 2; EnemySpd = 4; break;
-            case 2: EnemyHitpoints = 3; EnemySpd = 4; break;
-            default: EnemyHitpoints = 1; EnemySpd = 8; break;
-        }
-    }
 }

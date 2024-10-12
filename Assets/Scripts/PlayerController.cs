@@ -4,22 +4,27 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    // Modifiers
+    // Player Stats
     public float moveSpd = 1.0f;
     [SerializeField] private int playerHitPoints = 1;
+    [SerializeField] private int playerMaxHp;
+    [SerializeField] private int numBullets = 10;
+    [SerializeField] private int bulletSpd = 1;
+    [SerializeField] private int damagePerBullet = 1;
+    [SerializeField] private bool cooldownInvicibility;
+
+    // Get Set
+    public int PlayerMaxHp { get { return playerMaxHp; } set { playerMaxHp = value; } }
     public int PlayerHitPoints
     {
         get { return playerHitPoints; }
         private set { playerHitPoints = value; }
     }
-    [SerializeField] private int numBullets = 10;
-    [SerializeField] private int bulletSpd = 1;
-    [SerializeField] private int damagePerBullet = 1;
-    public int DamagePerBullet { 
-        get { return damagePerBullet; } 
-        private set {  damagePerBullet = value; }
+    public int DamagePerBullet
+    {
+        get { return damagePerBullet; }
+        set { damagePerBullet = value; }
     }
-    [SerializeField] private bool cooldownInvicibility;
 
     // Components
     private Rigidbody playerRb;
@@ -30,6 +35,7 @@ public class PlayerController : MonoBehaviour
      
     void Start()
     {
+        playerMaxHp = playerHitPoints;
         playerRb = GameObject.Find("Player").GetComponent<Rigidbody>();
         playerRb.freezeRotation = true;
         poolScript = GameObject.Find("ObjectPooler").GetComponent<ObjectPooler>();
@@ -71,7 +77,6 @@ public class PlayerController : MonoBehaviour
             GameObject bullet = poolScript.GetPooledObject();
             bullet.transform.position = bulletTransform.transform.position;
             bullet.SetActive(true);
-            Debug.Log(aimScript.GetAimDirection());
             bullet.GetComponent<Rigidbody>().velocity = aimScript.GetAimDirection().normalized * bulletSpd;
             //bullet.GetComponent<Rigidbody>().AddForce(aimScript.GetAimDirection().normalized*bulletSpd, ForceMode.Impulse);
         }

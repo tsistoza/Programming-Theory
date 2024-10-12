@@ -51,11 +51,10 @@ public class SpawnManager : MonoBehaviour
         if (enemyCount <= 0 && !GameManager.Instance.PickedUpPowerUp)
         {
             // Wait for user player pickup then spawn
-            for (int i = 0; i < 1/*(int)(GameManager.Instance.WaveNumber * spawnRate) */; i++)
+            for (int i = 0; i < (int)(GameManager.Instance.WaveNumber * spawnRate) ; i++)
             {
                 (int index, GameObject enemyPrefab) = GetRandomEnemy();
-                GameObject clone = Instantiate(enemyPrefab, GetSpawnPos(), enemyPrefab.transform.rotation);
-                clone.GetComponent<Enemy>().SetEnemyWithId(index);
+                Instantiate(enemyPrefab, GetSpawnPos(), enemyPrefab.transform.rotation);
             }
         }
     }
@@ -106,10 +105,10 @@ public class SpawnManager : MonoBehaviour
     {
         for (int i=0; i<3; i++)
         {
-            spawnedPowerUps.Add(
-                Instantiate(powerUps[i], 
-                            powerUpSpawn.transform.position + Vector3.right * i * 10, 
-                            powerUps[i].transform.rotation));
+            GameObject clone = Instantiate(powerUps[i],
+                                           powerUpSpawn.transform.position + Vector3.right * i * 10,
+                                           powerUps[i].transform.rotation);
+            spawnedPowerUps.Add(clone);
         }
         GameManager.Instance.spawnedPowerUps = true;
     }

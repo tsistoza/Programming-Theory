@@ -162,6 +162,7 @@ MonoBehaviour:
   - {fileID: 6781877276615314021, guid: 7fcd7338c0f619949bbb4dd73e64b5f4, type: 3}
   - {fileID: 2868127880826070250, guid: b1eaefc5f07e31c4390a7a05adc59044, type: 3}
   powerUpSpawn: {fileID: 1034586027}
+  spawnedPowerUps: []
 --- !u!4 &64898729
 Transform:
   m_ObjectHideFlags: 0
@@ -1863,6 +1864,10 @@ PrefabInstance:
     - target: {fileID: 1979292539955182141, guid: 01472830b345e874595d1b7cdb3ab7fd, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5986443548232733806, guid: 01472830b345e874595d1b7cdb3ab7fd, type: 3}
+      propertyPath: damagePerBullet
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5986443548232733806, guid: 01472830b345e874595d1b7cdb3ab7fd, type: 3}
       propertyPath: playerHitPoints
