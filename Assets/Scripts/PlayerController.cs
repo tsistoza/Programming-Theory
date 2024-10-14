@@ -9,8 +9,6 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private int playerHitPoints = 1;
     [SerializeField] private int playerMaxHp;
     [SerializeField] private int numBullets = 10;
-    [SerializeField] private int bulletSpd = 1;
-    [SerializeField] private int damagePerBullet = 1;
     [SerializeField] private bool cooldownInvicibility;
 
     // Get Set
@@ -20,18 +18,12 @@ public class PlayerController : MonoBehaviour
         get { return playerHitPoints; }
         private set { playerHitPoints = value; }
     }
-    public int DamagePerBullet
-    {
-        get { return damagePerBullet; }
-        set { damagePerBullet = value; }
-    }
+
 
     // Components
     private Rigidbody playerRb;
     public GameObject bulletPrefab;
     private ObjectPooler poolScript;
-    private AimController aimScript;
-    [SerializeField] private GameObject bulletTransform;
      
     void Start()
     {
@@ -39,17 +31,12 @@ public class PlayerController : MonoBehaviour
         playerRb = GameObject.Find("Player").GetComponent<Rigidbody>();
         playerRb.freezeRotation = true;
         poolScript = GameObject.Find("ObjectPooler").GetComponent<ObjectPooler>();
-        aimScript = gameObject.GetComponent<AimController>();
-        bulletTransform = GameObject.Find("Bullet Transform");
         poolScript.CreatePooledObjects(bulletPrefab, numBullets);
     }
 
     void Update()
     {
-        if (!GameManager.Instance.m_gameOver)
-        {
-            Fire();
-        }
+        
     }
     private void FixedUpdate()
     {
@@ -66,20 +53,6 @@ public class PlayerController : MonoBehaviour
         float dirX = Input.GetAxis("Horizontal");
         float dirZ = Input.GetAxis("Vertical");
         playerRb.velocity = new Vector3(dirX*moveSpd, playerRb.velocity.y, dirZ*moveSpd);
-    }
-    private void Fire()
-    {
-        Vector3 aim = aimScript.GetAimDirection().normalized;
-        transform.forward = aim;
-        bulletTransform.transform.position = transform.position + aim*2;
-        if (Input.GetMouseButtonDown(0))
-        {
-            GameObject bullet = poolScript.GetPooledObject();
-            bullet.transform.position = bulletTransform.transform.position;
-            bullet.SetActive(true);
-            bullet.GetComponent<Rigidbody>().velocity = aimScript.GetAimDirection().normalized * bulletSpd;
-            //bullet.GetComponent<Rigidbody>().AddForce(aimScript.GetAimDirection().normalized*bulletSpd, ForceMode.Impulse);
-        }
     }
 
     private void PlayerLife()

@@ -24,7 +24,6 @@ public class Projectile : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Enemy"))
         {
-            Debug.Log("Enemy Killed");
             gameObject.SetActive(false);
             collision.gameObject.GetComponent<Enemy>().DealDamage();
         }

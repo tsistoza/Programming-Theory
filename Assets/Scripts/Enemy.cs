@@ -21,11 +21,11 @@ public class Enemy : MonoBehaviour
     }
 
     // Components
-    [SerializeField] private PlayerController controlScript;
+    [SerializeField] private GunHandler gunScript;
 
     void Start()
     {
-       controlScript = GameObject.Find("Player").GetComponent<PlayerController>();
+       gunScript = GameObject.Find("Player").GetComponent<GunHandler>();
     }
 
     void FixedUpdate()
@@ -53,7 +53,7 @@ public class Enemy : MonoBehaviour
 
     public void DealDamage()
     {
-        EnemyHitpoints -= controlScript.DamagePerBullet;
+        EnemyHitpoints -= gunScript.DamagePerBullet;
         if (enemyHitpoints <= 0)
         {
             Destroy(gameObject);
