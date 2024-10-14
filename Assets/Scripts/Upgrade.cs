@@ -21,7 +21,7 @@ public class Upgrade : MonoBehaviour
         {
             case 0: playerScript.DamagePerBullet++; break;
             case 1: playerScript.PlayerMaxHp++; break;
-            case 2: playerScript.moveSpd++; break;
+            case 2: playerScript.moveSpd+=5; break;
             default: Debug.Log("Unknown Upgrade"); break;
         }
     }

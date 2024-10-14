@@ -18,7 +18,7 @@ public class MainUIHandler : MonoBehaviour
     void Start()
     {
         playerScript = GameObject.Find("Player").GetComponent<PlayerController>();
-        maxHealth = playerScript.PlayerHitPoints;
+        maxHealth = playerScript.PlayerMaxHp;
     }
 
     void Update()
@@ -28,6 +28,7 @@ public class MainUIHandler : MonoBehaviour
 
     public void updateHpBar()
     {
+        maxHealth = playerScript.PlayerMaxHp;
         hpSlider.value = (float) playerScript.PlayerHitPoints / maxHealth;
     }
 }

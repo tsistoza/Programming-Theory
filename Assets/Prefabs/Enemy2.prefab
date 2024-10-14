@@ -119,8 +119,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dbd71e85154b89d42ba3f7192d1241cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemySpd: 4
-  enemyHitpoints: 2
+  enemySpd: 5
+  enemyHitpoints: 5
   controlScript: {fileID: 0}
 --- !u!54 &6156043140089447570
 Rigidbody:

@@ -119,7 +119,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dbd71e85154b89d42ba3f7192d1241cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemySpd: 8
+  enemySpd: 10
   enemyHitpoints: 1
   controlScript: {fileID: 0}
 --- !u!54 &7144406486698074613
