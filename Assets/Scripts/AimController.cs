@@ -40,7 +40,7 @@ public class AimController : MonoBehaviour
         return Vector3.zero;
     }
     
-    // Visualizing RayCasting
+    // Visualizing Aim
     private void Test()
     {
         transform.position = GetMousePosition();

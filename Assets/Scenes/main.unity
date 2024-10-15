@@ -891,7 +891,7 @@ MonoBehaviour:
   fireDelayBetweenShots: 0
   reloadTime: 0
   shellsPerSalvo: 0
-  shotgunSpreadAngle: 15
+  shotgunSpreadAngle: 5
 --- !u!1 &1196451588
 GameObject:
   m_ObjectHideFlags: 0
@@ -1865,6 +1865,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 499188969986907410, guid: 01472830b345e874595d1b7cdb3ab7fd, type: 3}
+      propertyPath: m_ExcludeLayers.m_Bits
+      value: 256
+      objectReference: {fileID: 0}
     - target: {fileID: 1733764387283733222, guid: 01472830b345e874595d1b7cdb3ab7fd, type: 3}
       propertyPath: m_Name
       value: Player

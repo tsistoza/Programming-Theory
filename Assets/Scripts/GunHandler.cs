@@ -116,13 +116,14 @@ public class GunHandler : MonoBehaviour
         Vector3 aim = aimScript.GetAimDirection().normalized * bulletSpd;
         for (int i=0; i<shellsPerSalvo; i++)
         {
+            Quaternion rotation = Quaternion.Euler(0,
+                Random.Range(-shotgunSpreadAngle, shotgunSpreadAngle),
+                0);
             GameObject bullet = poolScript.GetPooledObject();
             bullet.transform.position = bulletTransform.transform.position;
             bullet.SetActive(true);
-            bullet.GetComponent<Rigidbody>().velocity = aim;
-            bullet.transform.rotation *= Quaternion.Euler(0,
-                Random.Range(-shotgunSpreadAngle, shotgunSpreadAngle),
-                0);
+            Vector3 direction = (rotation * aim);
+            bullet.GetComponent<Rigidbody>().velocity = (aim + direction);
         }
         m_fireDelay = true;
         StartCoroutine (FireDelay());
