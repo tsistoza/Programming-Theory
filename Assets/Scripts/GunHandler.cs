@@ -116,13 +116,15 @@ public class GunHandler : MonoBehaviour
         Vector3 aim = aimScript.GetAimDirection().normalized * bulletSpd;
         for (int i=0; i<shellsPerSalvo; i++)
         {
+            // Make a cone about the y-axis (xz-plane)
             Quaternion rotation = Quaternion.Euler(0,
                 Random.Range(-shotgunSpreadAngle, shotgunSpreadAngle),
                 0);
             GameObject bullet = poolScript.GetPooledObject();
             bullet.transform.position = bulletTransform.transform.position;
             bullet.SetActive(true);
-            Vector3 direction = (rotation * aim);
+            // By multiplying quaternion with the position of the mouse relative to the maincam, we are able to make this cone
+            Vector3 direction = (rotation * aim); 
             bullet.GetComponent<Rigidbody>().velocity = (aim + direction);
         }
         m_fireDelay = true;
