@@ -34,10 +34,6 @@ public class PlayerController : MonoBehaviour
         poolScript.CreatePooledObjects(bulletPrefab, numBullets);
     }
 
-    void Update()
-    {
-        
-    }
     private void FixedUpdate()
     {
         if (!GameManager.Instance.m_gameOver)

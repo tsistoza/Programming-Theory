@@ -890,6 +890,8 @@ MonoBehaviour:
   bulletsInMag: 0
   fireDelayBetweenShots: 0
   reloadTime: 0
+  shellsPerSalvo: 0
+  shotgunSpreadAngle: 15
 --- !u!1 &1196451588
 GameObject:
   m_ObjectHideFlags: 0

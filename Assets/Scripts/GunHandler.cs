@@ -18,19 +18,20 @@ public class GunHandler : MonoBehaviour
     [SerializeField] private int bulletsInMag;
     [SerializeField] private int fireDelayBetweenShots;
     [SerializeField] private int reloadTime;
-
-    // Variables
-    private bool m_fireDelay;
+    [SerializeField] private int shellsPerSalvo;
+    [SerializeField] private float shotgunSpreadAngle = 15f;
 
     public int DamagePerBullet { get { return damagePerBullet; } set { damagePerBullet = value; } }
 
     // Variables
     private GunID primaryId;
+    private bool m_fireDelay;
+
 
     // Start is called before the first frame update
     void Start()
     {
-        primaryId = GunID.Magnum;
+        primaryId = GunID.Shotgun;
         SetWeapon(primaryId);
         m_fireDelay = false;
     }
@@ -49,15 +50,20 @@ public class GunHandler : MonoBehaviour
         Vector3 aim = aimScript.GetAimDirection().normalized;
         transform.forward = aim;
         bulletTransform.transform.position = transform.position + aim * 2;
-        if (Input.GetMouseButtonDown(0) && !m_fireDelay && bulletsInMag > 0)
+        if (Input.GetMouseButton(0) && !m_fireDelay && bulletsInMag > 0)
         {
-            GameObject bullet = poolScript.GetPooledObject();
-            bullet.transform.position = bulletTransform.transform.position;
-            bullet.SetActive(true);
-            bullet.GetComponent<Rigidbody>().velocity = aimScript.GetAimDirection().normalized * bulletSpd;
-            m_fireDelay = true;
-            StartCoroutine(FireDelay());
-            bulletsInMag--;
+            switch(primaryId)
+            {
+                case GunID.Magnum:
+                    Magnum();
+                    break;
+                case GunID.Shotgun:
+                    Shotgun();
+                    break;
+                case GunID.AssaultRifle:
+                    break;
+                default: Magnum(); break;
+            }
         }
         if (bulletsInMag == 0)
         {
@@ -76,6 +82,13 @@ public class GunHandler : MonoBehaviour
                 fireDelayBetweenShots = 1;
                 reloadTime = 3;
                 break;
+            case GunID.Shotgun:
+                damagePerBullet = 1;
+                magazineSize = 5;
+                fireDelayBetweenShots = 2;
+                reloadTime = 2;
+                shellsPerSalvo = 5;
+                break;
             default:
                 damagePerBullet = 4;
                 magazineSize = 10;
@@ -86,6 +99,38 @@ public class GunHandler : MonoBehaviour
         }
     }
 
+    private void Magnum()
+    {
+        GameObject bullet = poolScript.GetPooledObject();
+        bullet.transform.position = bulletTransform.transform.position;
+        bullet.SetActive(true);
+        Debug.Log(aimScript.GetAimDirection().normalized);
+        bullet.GetComponent<Rigidbody>().velocity = aimScript.GetAimDirection().normalized * bulletSpd;
+        m_fireDelay = true;
+        StartCoroutine(FireDelay());
+        bulletsInMag--;
+    }
+
+    private void Shotgun()
+    {
+        Vector3 aim = aimScript.GetAimDirection().normalized * bulletSpd;
+        for (int i=0; i<shellsPerSalvo; i++)
+        {
+            GameObject bullet = poolScript.GetPooledObject();
+            bullet.transform.position = bulletTransform.transform.position;
+            bullet.SetActive(true);
+            bullet.GetComponent<Rigidbody>().velocity = aim;
+            bullet.transform.rotation *= Quaternion.Euler(0,
+                Random.Range(-shotgunSpreadAngle, shotgunSpreadAngle),
+                0);
+        }
+        m_fireDelay = true;
+        StartCoroutine (FireDelay());
+        bulletsInMag--;
+    }
+
+
+    // Coroutines
     IEnumerator Reload()
     {
         Debug.Log("Reloading");
