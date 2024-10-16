@@ -10,6 +10,8 @@ public class Enemy : MonoBehaviour
 {
     // Modifiers
     [SerializeField] private float enemySpd = 1.0f;
+    private bool isGrounded;
+
     public float EnemySpd { 
         get { return enemySpd; }
         set { enemySpd = value; } 
@@ -26,11 +28,12 @@ public class Enemy : MonoBehaviour
     void Start()
     {
        gunScript = GameObject.Find("Player").GetComponent<GunHandler>();
+        isGrounded = false;
     }
 
     void FixedUpdate()
     {
-        if (!GameManager.Instance.m_gameOver)
+        if (!GameManager.Instance.m_gameOver && isGrounded)
         {
             EnemyMove();
         }
@@ -59,4 +62,16 @@ public class Enemy : MonoBehaviour
             Destroy(gameObject);
         }
     }
+
+    private void OnCollisionStay(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Walls")) isGrounded = true;
+ 
+    }
+
+    private void OnCollisionExit(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Walls")) isGrounded = false;
+    }
+
 }

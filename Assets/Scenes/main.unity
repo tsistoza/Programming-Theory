@@ -890,8 +890,8 @@ MonoBehaviour:
   bulletsInMag: 0
   fireDelayBetweenShots: 0
   reloadTime: 0
-  shellsPerSalvo: 0
-  shotgunSpreadAngle: 5
+  shellsPerSalvo: 7
+  shotgunSpreadAngle: 30
 --- !u!1 &1196451588
 GameObject:
   m_ObjectHideFlags: 0
@@ -1914,6 +1914,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5986443548232733806, guid: 01472830b345e874595d1b7cdb3ab7fd, type: 3}
+      propertyPath: moveSpd
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 5986443548232733806, guid: 01472830b345e874595d1b7cdb3ab7fd, type: 3}
       propertyPath: damagePerBullet
       value: 1
       objectReference: {fileID: 0}
@@ -2038,6 +2042,10 @@ PrefabInstance:
       value: Walls
       objectReference: {fileID: 0}
     - target: {fileID: 5974029071610512841, guid: 44dd7ccafb668ce4c8b589bd68eeeaef, type: 3}
+      propertyPath: m_TagString
+      value: Walls
+      objectReference: {fileID: 0}
+    - target: {fileID: 5974272233245258543, guid: 44dd7ccafb668ce4c8b589bd68eeeaef, type: 3}
       propertyPath: m_TagString
       value: Walls
       objectReference: {fileID: 0}

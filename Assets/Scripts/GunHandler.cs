@@ -16,8 +16,8 @@ public class GunHandler : MonoBehaviour
     [SerializeField] private int damagePerBullet;
     [SerializeField] private int magazineSize;
     [SerializeField] private int bulletsInMag;
-    [SerializeField] private int fireDelayBetweenShots;
-    [SerializeField] private int reloadTime;
+    [SerializeField] private float fireDelayBetweenShots;
+    [SerializeField] private float reloadTime;
     [SerializeField] private int shellsPerSalvo;
     [SerializeField] private float shotgunSpreadAngle = 30f;
 
@@ -26,14 +26,16 @@ public class GunHandler : MonoBehaviour
     // Variables
     private GunID primaryId;
     private bool m_fireDelay;
+    private bool m_reloading;
 
 
     // Start is called before the first frame update
     void Start()
     {
-        primaryId = GunID.Shotgun;
+        primaryId = GunID.AssaultRifle;
         SetWeapon(primaryId);
         m_fireDelay = false;
+        m_reloading = false;
     }
 
     // Update is called once per frame
@@ -50,7 +52,7 @@ public class GunHandler : MonoBehaviour
         Vector3 aim = aimScript.GetAimDirection().normalized;
         transform.forward = aim;
         bulletTransform.transform.position = transform.position + aim * 2;
-        if (Input.GetMouseButton(0) && !m_fireDelay && bulletsInMag > 0)
+        if (Input.GetMouseButton(0) && !m_fireDelay && !m_reloading)
         {
             switch(primaryId)
             {
@@ -61,12 +63,14 @@ public class GunHandler : MonoBehaviour
                     Shotgun();
                     break;
                 case GunID.AssaultRifle:
+                    Magnum(); // we can just use Magnum
                     break;
                 default: Magnum(); break;
             }
         }
-        if (bulletsInMag == 0)
+        if (bulletsInMag == 0 || (Input.GetKey(KeyCode.R) && bulletsInMag <= magazineSize))
         {
+            m_reloading = true;
             StartCoroutine(Reload());
         }
     }
@@ -79,22 +83,29 @@ public class GunHandler : MonoBehaviour
                 damagePerBullet = 4;
                 magazineSize = 10;
                 bulletsInMag = 10;
-                fireDelayBetweenShots = 1;
-                reloadTime = 3;
+                fireDelayBetweenShots = 0.7f;
+                reloadTime = 1f;
                 break;
             case GunID.Shotgun:
                 damagePerBullet = 1;
                 magazineSize = 5;
-                fireDelayBetweenShots = 2;
-                reloadTime = 2;
+                fireDelayBetweenShots = 1.2f;
+                reloadTime = 2.5f;
                 shellsPerSalvo = 5;
+                break;
+            case GunID.AssaultRifle:
+                damagePerBullet = 1;
+                magazineSize = 20;
+                bulletsInMag = 20;
+                fireDelayBetweenShots = 0.2f;
+                reloadTime = 2f;
                 break;
             default:
                 damagePerBullet = 4;
                 magazineSize = 10;
                 bulletsInMag = 10;
-                fireDelayBetweenShots = 1;
-                reloadTime = 3;
+                fireDelayBetweenShots = 1f;
+                reloadTime = 1f;
                 break;
         }
     }
@@ -132,13 +143,13 @@ public class GunHandler : MonoBehaviour
         bulletsInMag--;
     }
 
-
     // Coroutines
     IEnumerator Reload()
     {
         Debug.Log("Reloading");
         yield return new WaitForSeconds(reloadTime);
         bulletsInMag = magazineSize;
+        m_reloading = false;
     }
     IEnumerator FireDelay()
     {
