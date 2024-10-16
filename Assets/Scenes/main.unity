@@ -152,7 +152,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85a3373110378e049b239fc401fcfef3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spawnRate: 5
+  spawnRate: 8.5
   spawnRange: 9
   enemies:
   - {fileID: 6596636708448620895, guid: 7a299164511128a46bccbbd509faaae9, type: 3}
@@ -1923,7 +1923,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5986443548232733806, guid: 01472830b345e874595d1b7cdb3ab7fd, type: 3}
       propertyPath: playerHitPoints
-      value: 2
+      value: 5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

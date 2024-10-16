@@ -119,7 +119,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dbd71e85154b89d42ba3f7192d1241cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemySpd: 10
+  enemySpd: 15
   enemyHitpoints: 10
   gunScript: {fileID: 0}
 --- !u!54 &6156043140089447570
