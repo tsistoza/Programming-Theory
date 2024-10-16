@@ -19,7 +19,7 @@ public class GunHandler : MonoBehaviour
     [SerializeField] private int fireDelayBetweenShots;
     [SerializeField] private int reloadTime;
     [SerializeField] private int shellsPerSalvo;
-    [SerializeField] private float shotgunSpreadAngle = 15f;
+    [SerializeField] private float shotgunSpreadAngle = 30f;
 
     public int DamagePerBullet { get { return damagePerBullet; } set { damagePerBullet = value; } }
 
