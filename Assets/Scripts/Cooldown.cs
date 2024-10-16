@@ -16,12 +16,17 @@ public class Cooldown
 
     public bool Wait()
     {
-        float nextAvailableTime = startWaitTime + this.duration;
+        float nextAvailableTime = startWaitTime + duration;
         if (Time.time > nextAvailableTime)
         {
             startWaitTime = Time.time;
             return true;
         }
         return false;
+    }
+
+    public void Refresh()
+    {
+        startWaitTime = Time.time;
     }
 }

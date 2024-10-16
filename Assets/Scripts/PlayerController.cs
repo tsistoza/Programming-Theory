@@ -5,11 +5,15 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     // Player Stats
-    public float moveSpd = 1.0f;
-    [SerializeField] private int playerHitPoints = 1;
+    public float moveSpd;
+    [SerializeField] private int playerHitPoints;
     [SerializeField] private int playerMaxHp;
-    [SerializeField] private int numBullets = 10;
+    [SerializeField] private int numBullets;
     [SerializeField] private bool cooldownInvicibility;
+
+    // Variables
+    private int m_regenDelay;
+    Cooldown m_regen;
 
     // Get Set
     public int PlayerMaxHp { get { return playerMaxHp; } set { playerMaxHp = value; } }
@@ -27,11 +31,17 @@ public class PlayerController : MonoBehaviour
      
     void Start()
     {
+        m_regen = new Cooldown(10);
         playerMaxHp = playerHitPoints;
         playerRb = GameObject.Find("Player").GetComponent<Rigidbody>();
         playerRb.freezeRotation = true;
         poolScript = GameObject.Find("ObjectPooler").GetComponent<ObjectPooler>();
         poolScript.CreatePooledObjects(bulletPrefab, numBullets);
+    }
+
+    private void Update()
+    {
+        PlayerRegen();
     }
 
     private void FixedUpdate()
@@ -51,7 +61,7 @@ public class PlayerController : MonoBehaviour
         playerRb.velocity = new Vector3(dirX*moveSpd, playerRb.velocity.y, dirZ*moveSpd);
     }
 
-    private void PlayerLife()
+    private void PlayerDealDamage()
     {
         PlayerHitPoints--;
         if (PlayerHitPoints <= 0)
@@ -61,13 +71,23 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    private void PlayerRegen ()
+    {
+        if (m_regen.Wait() && PlayerHitPoints < PlayerMaxHp)
+        {
+            PlayerHitPoints++;
+            m_regen.Refresh();
+        }
+    }
+
     // Events
     private void OnCollisionEnter(Collision collision)
     {
         if(collision.gameObject.CompareTag("Enemy") && !cooldownInvicibility)
         {
-            PlayerLife();
+            PlayerDealDamage();
             cooldownInvicibility = true;
+            m_regen.Refresh();
             StartCoroutine(InvicibilityCooldown());
             Debug.Log("Player Hit by Enemy");
         }
