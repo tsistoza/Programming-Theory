@@ -11,6 +11,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private int numBullets;
     [SerializeField] private bool cooldownInvicibility;
 
+    // Player Perks
+    public List<Perk> perks;
+
     // Variables
     private int m_regenDelay;
     Cooldown m_regen;
@@ -31,6 +34,7 @@ public class PlayerController : MonoBehaviour
      
     void Start()
     {
+        perks = new List<Perk>();
         m_regen = new Cooldown(10);
         playerMaxHp = playerHitPoints;
         playerRb = GameObject.Find("Player").GetComponent<Rigidbody>();

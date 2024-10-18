@@ -2,22 +2,28 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Perks : Upgrade
+/// <summary>
+/// Similar to the upgrade class in that it will handle the perks
+/// Note: Upgrades are primarily stats driven upgrades
+/// And Perks are things outside of stats such as equipments.
+/// </summary>
+public class Perks : MonoBehaviour
 {
-    // Start is called before the first frame update
+    [SerializeField] private List<Perk> playerPerks;
+    [SerializeField] private Perk obj;
+    [SerializeField] private PerkHandler handler;
+
     void Start()
     {
-        
+        playerPerks = GameObject.Find("Player").GetComponent<PlayerController>().perks;
+        handler = GameObject.Find("Player").GetComponent<PerkHandler>();
     }
 
-    // Update is called once per frame
-    void Update()
+    protected void OnTriggerEnter(Collider other)
     {
-        
-    }
-
-    protected override void OnTriggerEnter(Collider other)
-    {
-        base.OnTriggerEnter(other);
+        playerPerks.Add(obj);
+        handler.PerkUpdate(obj);
+        Destroy(gameObject);
+        SpawnManager.Instance.DestroyPowerUps();
     }
 }
