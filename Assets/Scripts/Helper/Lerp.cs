@@ -11,5 +11,4 @@ public class Lerp : MonoBehaviour
     {
         transform.position = Vector3.Lerp(transform.position, playerPos.position, Time.deltaTime * moveSpd);
     }
-
 }

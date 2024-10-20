@@ -853,65 +853,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1076771791 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1733764387283733222, guid: 01472830b345e874595d1b7cdb3ab7fd, type: 3}
-  m_PrefabInstance: {fileID: 2787786164249887899}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1076771792 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 7192322813972074396, guid: 01472830b345e874595d1b7cdb3ab7fd, type: 3}
-  m_PrefabInstance: {fileID: 2787786164249887899}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1076771791}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5d95b3f5968b01b468f5c312970f4784, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &1076771799
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1076771791}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6afefe7d188805f4c8bcacccb06b84c6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  aimScript: {fileID: 1076771792}
-  bulletTransform: {fileID: 1575270371}
-  poolScript: {fileID: 2134916484}
-  bulletSpd: 40
-  damagePerBullet: 1
-  magazineSize: 0
-  bulletsInMag: 0
-  fireDelayBetweenShots: 0
-  reloadTime: 0
-  shellsPerSalvo: 7
-  shotgunSpreadAngle: 30
 --- !u!4 &1076771805 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1979292539955182141, guid: 01472830b345e874595d1b7cdb3ab7fd, type: 3}
   m_PrefabInstance: {fileID: 2787786164249887899}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1076771806
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1076771791}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c7b11429307b07040b1e85a8502eae57, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  perks: 
-  shuriken: {fileID: 6636899386515791994, guid: 37f2b1fa4462a8945832c1e58426d63b, type: 3}
-  parent: {fileID: 1672562899}
 --- !u!1 &1196451588
 GameObject:
   m_ObjectHideFlags: 0
@@ -1603,11 +1549,6 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
---- !u!4 &1575270371 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 437993402425244215, guid: 01472830b345e874595d1b7cdb3ab7fd, type: 3}
-  m_PrefabInstance: {fileID: 2787786164249887899}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1672562897
 GameObject:
   m_ObjectHideFlags: 0
@@ -1952,10 +1893,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 499188969986907410, guid: 01472830b345e874595d1b7cdb3ab7fd, type: 3}
-      propertyPath: m_ExcludeLayers.m_Bits
-      value: 256
-      objectReference: {fileID: 0}
+    - target: {fileID: 260161070325577523, guid: 01472830b345e874595d1b7cdb3ab7fd, type: 3}
+      propertyPath: parent
+      value: 
+      objectReference: {fileID: 1672562899}
     - target: {fileID: 1733764387283733222, guid: 01472830b345e874595d1b7cdb3ab7fd, type: 3}
       propertyPath: m_Name
       value: Player
@@ -2000,28 +1941,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 5986443548232733806, guid: 01472830b345e874595d1b7cdb3ab7fd, type: 3}
-      propertyPath: moveSpd
-      value: 25
-      objectReference: {fileID: 0}
-    - target: {fileID: 5986443548232733806, guid: 01472830b345e874595d1b7cdb3ab7fd, type: 3}
-      propertyPath: damagePerBullet
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5986443548232733806, guid: 01472830b345e874595d1b7cdb3ab7fd, type: 3}
-      propertyPath: playerHitPoints
-      value: 5
-      objectReference: {fileID: 0}
+    - target: {fileID: 8447221674335662801, guid: 01472830b345e874595d1b7cdb3ab7fd, type: 3}
+      propertyPath: poolScript
+      value: 
+      objectReference: {fileID: 2134916484}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 1733764387283733222, guid: 01472830b345e874595d1b7cdb3ab7fd, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1076771799}
-    - targetCorrespondingSourceObject: {fileID: 1733764387283733222, guid: 01472830b345e874595d1b7cdb3ab7fd, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1076771806}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 01472830b345e874595d1b7cdb3ab7fd, type: 3}
 --- !u!1001 &4117803708806126531
 PrefabInstance:
