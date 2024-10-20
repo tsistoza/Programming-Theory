@@ -7,19 +7,22 @@ public class Shuriken : MonoBehaviour
     private Vector3 playerPos;
 
     [SerializeField] private float rotationSpd;
-    [SerializeField] private Vector3 parent;
+    [SerializeField] private Transform objectToRotateAround;
     [SerializeField] private float pushForce;
+    [SerializeField] private float radius;
 
     // Start is called before the first frame update
     void Start()
     {
-        parent = transform.parent.position - Vector3.up*30;
+        objectToRotateAround = GameObject.Find("Orbiter").transform;
+        transform.parent = GameObject.Find("Orbiter").transform;
     }
 
     private void FixedUpdate()
     {
-        parent = transform.parent.position - Vector3.up*30;
-        transform.RotateAround(parent, Vector3.up, rotationSpd * Time.deltaTime);
+        Vector3 dir = (transform.position - objectToRotateAround.position).normalized;
+        transform.position = (objectToRotateAround.position) + (dir * radius);
+        transform.RotateAround(objectToRotateAround.position, Vector3.up, rotationSpd * Time.deltaTime);
     }
 
     private void OnCollisionEnter(Collision collision)

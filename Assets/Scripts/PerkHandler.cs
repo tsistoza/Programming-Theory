@@ -7,16 +7,11 @@ public class PerkHandler : MonoBehaviour
 {
     [SerializeField] private List<Perk> perks;
     [SerializeField] private GameObject shuriken;
-    [SerializeField] private Transform parent;
-
-    void Start()
-    {
-        perks = gameObject.GetComponent<PlayerController>().perks;
-    }
 
     public void PerkUpdate(Perk perk)
     {
-        if(perks.Contains(perk))
+        perks = gameObject.GetComponent<PlayerController>().perks;
+        if (perks.Contains(perk))
         {
             switch(perk)
             {
@@ -31,7 +26,7 @@ public class PerkHandler : MonoBehaviour
 
     private void ShurikenSpawn()
     {
-        Instantiate(shuriken, parent, true);
+        Instantiate(shuriken);
     }
 
 }
