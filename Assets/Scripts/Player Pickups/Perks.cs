@@ -9,21 +9,24 @@ using UnityEngine;
 /// </summary>
 public class Perks : MonoBehaviour
 {
-    [SerializeField] private List<Perk> playerPerks;
+    [SerializeField] private PlayerController playerScript;
     [SerializeField] private Perk obj;
     [SerializeField] private PerkHandler handler;
 
     void Start()
     {
-        playerPerks = GameObject.Find("Player").GetComponent<PlayerController>().perks;
+        playerScript = GameObject.Find("Player").GetComponent<PlayerController>();
         handler = GameObject.Find("Player").GetComponent<PerkHandler>();
     }
 
     protected void OnTriggerEnter(Collider other)
     {
-        playerPerks.Add(obj);
-        handler.PerkUpdate(obj);
-        Destroy(gameObject);
-        SpawnManager.Instance.DestroyPowerUps();
+        if (other.gameObject.CompareTag("Player"))
+        {
+            playerScript.perks.Add(obj);
+            handler.PerkUpdate(obj);
+            Destroy(gameObject);
+            SpawnManager.Instance.DestroyPowerUps();
+        }
     }
 }

@@ -15,11 +15,9 @@ public class Shuriken : MonoBehaviour
         parent = transform.parent.position;
     }
 
-    // Update is called once per frame
-    void Update()
+    private void FixedUpdate()
     {
         parent = transform.parent.position;
-        //transform.position = Vector3.Lerp(gameObject.transform.position, playerPos, rotationSpd);
         transform.RotateAround(parent, Vector3.up, rotationSpd * Time.deltaTime);
     }
 }

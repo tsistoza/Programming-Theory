@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -20,6 +21,7 @@ public class PerkHandler : MonoBehaviour
             switch(perk)
             {
                 case Perk.Shuriken_Perk:
+                    Console.WriteLine("Spawning Shuriken");
                     ShurikenSpawn();
                     break;
                 default: break; // Unknown Perk
