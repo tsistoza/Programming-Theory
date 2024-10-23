@@ -8,6 +8,10 @@ public class PerkHandler : MonoBehaviour
     [SerializeField] private List<Perk> perks;
     [SerializeField] private GameObject shuriken;
 
+    // Stats - Not Player Stats, but stats of the perks
+    public int PoisonDamage = 1;
+    public int PoisonDuration = 4;
+
     public void PerkUpdate(Perk perk)
     {
         perks = gameObject.GetComponent<PlayerController>().perks;
@@ -19,6 +23,9 @@ public class PerkHandler : MonoBehaviour
                     Console.WriteLine("Spawning Shuriken");
                     ShurikenSpawn();
                     break;
+                case Perk.Poison_Perk:
+                    PoisonDuration++;
+                    break;
                 default: break; // Unknown Perk
             }
         }
@@ -28,5 +35,4 @@ public class PerkHandler : MonoBehaviour
     {
         Instantiate(shuriken);
     }
-
 }

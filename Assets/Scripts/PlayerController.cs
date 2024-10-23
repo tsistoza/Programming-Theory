@@ -10,6 +10,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private int playerMaxHp;
     [SerializeField] private int numBullets;
     [SerializeField] private bool cooldownInvicibility;
+    
 
     // Player Perks
     public List<Perk> perks;

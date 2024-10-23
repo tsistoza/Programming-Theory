@@ -24,11 +24,26 @@ public class Enemy : MonoBehaviour
 
     // Components
     [SerializeField] private GunHandler gunScript;
+    [SerializeField] private PerkHandler perkScript;
+    public List<Perk> perks;
+
+    private bool isPoisioned;
 
     void Start()
     {
-       gunScript = GameObject.Find("Player").GetComponent<GunHandler>();
+        gunScript = GameObject.Find("Player").GetComponent<GunHandler>();
+        perkScript = gunScript.gameObject.GetComponent<PerkHandler>();
         isGrounded = false;
+    }
+
+    private void Update()
+    {
+        if (isPoisioned)
+        {
+            Cooldown duration = new Cooldown(perkScript.PoisonDuration);
+            Cooldown timer = new Cooldown(1);
+            PoisonDamage(duration, timer);
+        }
     }
 
     void FixedUpdate()
@@ -56,12 +71,30 @@ public class Enemy : MonoBehaviour
 
     public void DealDamage()
     {
+        perks = GameObject.Find("Player").GetComponent<PlayerController>().perks;
         EnemyHitpoints -= gunScript.DamagePerBullet;
-        if (enemyHitpoints <= 0)
-        {
-            Destroy(gameObject);
-        }
+
+        if (!isPoisioned && perks.Contains(Perk.Poison_Perk)) isPoisioned = true;
+
+        if (enemyHitpoints <= 0) Destroy(gameObject);
     }
+
+    public void PoisonDamage(Cooldown duration, Cooldown timer)
+    {
+        if (timer.Wait())
+        {
+            EnemyHitpoints -= perkScript.PoisonDamage;
+            timer.Refresh();
+            Debug.Log("Enemy Ticked From Poison");
+        }
+        if (duration.Wait())
+        {
+            isPoisioned = false;
+            Debug.Log("Enemy No Longer Poisoned");
+        }
+        if (enemyHitpoints <= 0) Destroy(gameObject);
+    }
+
 
     private void OnCollisionStay(Collision collision)
     {
