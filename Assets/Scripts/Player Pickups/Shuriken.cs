@@ -21,13 +21,14 @@ public class Shuriken : MonoBehaviour
     private void FixedUpdate()
     {
         Vector3 dir = (transform.position - objectToRotateAround.position).normalized;
+        dir.y = -0.1f;
         transform.position = (objectToRotateAround.position) + (dir * radius);
         transform.RotateAround(objectToRotateAround.position, Vector3.up, rotationSpd * Time.deltaTime);
     }
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.CompareTag("Player"))
+        if (collision.gameObject.CompareTag("Enemy"))
         {
             Vector3 vec = gameObject.transform.position - transform.parent.position;
             collision.gameObject.GetComponent<Rigidbody>().AddForce(vec * pushForce, ForceMode.Impulse);

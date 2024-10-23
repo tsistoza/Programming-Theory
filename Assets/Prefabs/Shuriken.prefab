@@ -18,7 +18,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5930594196491819160, guid: cb760db54ab95144bb546a3b8e272bbd, type: 3}
       propertyPath: m_Height
-      value: 13.827575
+      value: 28.622
       objectReference: {fileID: 0}
     - target: {fileID: 5930594196491819160, guid: cb760db54ab95144bb546a3b8e272bbd, type: 3}
       propertyPath: m_Radius
@@ -26,15 +26,31 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5930594196491819160, guid: cb760db54ab95144bb546a3b8e272bbd, type: 3}
       propertyPath: m_Center.x
-      value: 0.0000000516095
+      value: 0.000000052415533
       objectReference: {fileID: 0}
     - target: {fileID: 5930594196491819160, guid: cb760db54ab95144bb546a3b8e272bbd, type: 3}
       propertyPath: m_Center.y
-      value: -0.9965323
+      value: -0.9965344
       objectReference: {fileID: 0}
     - target: {fileID: 5930594196491819160, guid: cb760db54ab95144bb546a3b8e272bbd, type: 3}
       propertyPath: m_Center.z
-      value: 0.022849265
+      value: 0.022849279
+      objectReference: {fileID: 0}
+    - target: {fileID: 5930594196491819160, guid: cb760db54ab95144bb546a3b8e272bbd, type: 3}
+      propertyPath: m_IsTrigger
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7084610946044026489, guid: cb760db54ab95144bb546a3b8e272bbd, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 2.2743123
+      objectReference: {fileID: 0}
+    - target: {fileID: 7084610946044026489, guid: cb760db54ab95144bb546a3b8e272bbd, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.08471726
+      objectReference: {fileID: 0}
+    - target: {fileID: 7084610946044026489, guid: cb760db54ab95144bb546a3b8e272bbd, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 2.540892
       objectReference: {fileID: 0}
     - target: {fileID: 7084610946044026489, guid: cb760db54ab95144bb546a3b8e272bbd, type: 3}
       propertyPath: m_LocalPosition.x
@@ -104,9 +120,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c47a10904df52744e919b5ca33ece628, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rotationSpd: 50
-  parent: {x: 0, y: 0, z: 0}
-  pushForce: 0
+  rotationSpd: 100
+  objectToRotateAround: {fileID: 0}
+  pushForce: 10
   radius: 10
 --- !u!54 &-396432888098962602
 Rigidbody:
