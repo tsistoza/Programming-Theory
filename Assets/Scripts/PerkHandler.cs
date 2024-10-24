@@ -10,7 +10,7 @@ public class PerkHandler : MonoBehaviour
 
     // Stats - Not Player Stats, but stats of the perks
     public int PoisonDamage = 1;
-    public int PoisonDuration = 4;
+    public int PoisonDuration = 9;
 
     public void PerkUpdate(Perk perk)
     {

@@ -81,7 +81,6 @@ public class PlayerController : MonoBehaviour
         if (m_regen.Wait() && PlayerHitPoints < PlayerMaxHp)
         {
             PlayerHitPoints++;
-            m_regen.Refresh();
         }
     }
 
@@ -92,7 +91,6 @@ public class PlayerController : MonoBehaviour
         {
             PlayerDealDamage();
             cooldownInvicibility = true;
-            m_regen.Refresh();
             StartCoroutine(InvicibilityCooldown());
             Debug.Log("Player Hit by Enemy");
         }
