@@ -152,7 +152,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85a3373110378e049b239fc401fcfef3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spawnRate: 8.5
+  spawnRate: 1
   spawnRange: 9
   enemies:
   - {fileID: 6596636708448620895, guid: 7a299164511128a46bccbbd509faaae9, type: 3}
@@ -586,83 +586,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 269150433}
   m_CullTransparentMesh: 1
---- !u!1001 &373827045
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 4681182316633334880, guid: f0aeab8afae1d8c4a874b1f9bd87d63b, type: 3}
-      propertyPath: m_Size.z
-      value: 0.14464188
-      objectReference: {fileID: 0}
-    - target: {fileID: 4681182316633334880, guid: f0aeab8afae1d8c4a874b1f9bd87d63b, type: 3}
-      propertyPath: m_Center.z
-      value: 0.026239395
-      objectReference: {fileID: 0}
-    - target: {fileID: 5168778556373994917, guid: f0aeab8afae1d8c4a874b1f9bd87d63b, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 6.9391623
-      objectReference: {fileID: 0}
-    - target: {fileID: 5168778556373994917, guid: f0aeab8afae1d8c4a874b1f9bd87d63b, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 6.9391623
-      objectReference: {fileID: 0}
-    - target: {fileID: 5168778556373994917, guid: f0aeab8afae1d8c4a874b1f9bd87d63b, type: 3}
-      propertyPath: m_LocalScale.z
-      value: 6.9391623
-      objectReference: {fileID: 0}
-    - target: {fileID: 5168778556373994917, guid: f0aeab8afae1d8c4a874b1f9bd87d63b, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -49.20651
-      objectReference: {fileID: 0}
-    - target: {fileID: 5168778556373994917, guid: f0aeab8afae1d8c4a874b1f9bd87d63b, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -201.14247
-      objectReference: {fileID: 0}
-    - target: {fileID: 5168778556373994917, guid: f0aeab8afae1d8c4a874b1f9bd87d63b, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 54.467422
-      objectReference: {fileID: 0}
-    - target: {fileID: 5168778556373994917, guid: f0aeab8afae1d8c4a874b1f9bd87d63b, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 0.7071068
-      objectReference: {fileID: 0}
-    - target: {fileID: 5168778556373994917, guid: f0aeab8afae1d8c4a874b1f9bd87d63b, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0.7071068
-      objectReference: {fileID: 0}
-    - target: {fileID: 5168778556373994917, guid: f0aeab8afae1d8c4a874b1f9bd87d63b, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5168778556373994917, guid: f0aeab8afae1d8c4a874b1f9bd87d63b, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5168778556373994917, guid: f0aeab8afae1d8c4a874b1f9bd87d63b, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 90
-      objectReference: {fileID: 0}
-    - target: {fileID: 5168778556373994917, guid: f0aeab8afae1d8c4a874b1f9bd87d63b, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5168778556373994917, guid: f0aeab8afae1d8c4a874b1f9bd87d63b, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8409897297891382009, guid: f0aeab8afae1d8c4a874b1f9bd87d63b, type: 3}
-      propertyPath: m_Name
-      value: Poison_Perk
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: f0aeab8afae1d8c4a874b1f9bd87d63b, type: 3}
 --- !u!1 &721143144
 GameObject:
   m_ObjectHideFlags: 0
@@ -2454,4 +2377,3 @@ SceneRoots:
   - {fileID: 2070928272}
   - {fileID: 1034586028}
   - {fileID: 1672562899}
-  - {fileID: 373827045}

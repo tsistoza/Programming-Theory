@@ -105,7 +105,7 @@ public class SpawnManager : MonoBehaviour
     {
         for (int i=0; i<3; i++)
         {
-            GameObject clone = Instantiate(powerUps[i],
+            GameObject clone = Instantiate(powerUps[Random.Range(0, powerUps.Count-1)],
                                            powerUpSpawn.transform.position + Vector3.right * i * 10,
                                            powerUps[i].transform.rotation);
             spawnedPowerUps.Add(clone);

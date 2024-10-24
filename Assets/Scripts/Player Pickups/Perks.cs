@@ -23,6 +23,7 @@ public class Perks : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player"))
         {
+            GameManager.Instance.PickedUpPowerUp = true;
             playerScript.perks.Add(obj);
             handler.PerkUpdate(obj);
             Destroy(gameObject);

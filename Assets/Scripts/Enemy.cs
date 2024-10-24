@@ -16,7 +16,7 @@ public class Enemy : MonoBehaviour
         get { return enemySpd; }
         set { enemySpd = value; } 
     }
-    [SerializeField] private int enemyHitpoints = 2;
+    [SerializeField] private int enemyHitpoints;
     public int EnemyHitpoints {
         get { return enemyHitpoints; }
         set { enemyHitpoints = value; } 
@@ -38,6 +38,7 @@ public class Enemy : MonoBehaviour
         duration = new Cooldown((float)perkScript.PoisonDuration);
         timer = new Cooldown((float)2f);
         isGrounded = false;
+        EnemyHPScaling();
     }
 
     private void Update()
@@ -94,6 +95,14 @@ public class Enemy : MonoBehaviour
             EnemyHitpoints -= perkScript.PoisonDamage;
         }
         if (EnemyHitpoints <= 0) Destroy(gameObject);
+    }
+
+    public void EnemyHPScaling()
+    {
+        int addHp = Mathf.RoundToInt(((EnemyHitpoints*GameManager.Instance.WaveNumber)*0.5f));
+        Debug.Log(addHp);
+        EnemyHitpoints += addHp;
+        return;
     }
 
 
