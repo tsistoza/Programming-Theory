@@ -26,6 +26,12 @@ public class NodeGrid : MonoBehaviour
         
     }
 
+    void CreateGrid()
+    {
+        grid = new Node[gridSizeX, gridSizeY];
+        Vector3 worldBottomLeft = transform.position;
+    }
+
     private void OnDrawGizmos()
     {
         Gizmos.DrawWireCube(transform.position, new Vector3(gridWorldSize.x, 1, gridWorldSize.y));
