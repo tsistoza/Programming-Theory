@@ -21,16 +21,27 @@ public class NodeGrid : MonoBehaviour
         CreateGrid();
     }
 
-    // Update is called once per frame
-    void Update()
+    public List<Node> GetAllNeighbors(Node startNode)
     {
-        
+        List<Node> neighbors = new List<Node>();
+        for (int x=-1; x<=1; x++)
+        {
+            for (int y=-1; y<=1; y++)
+            {
+                if (x == 0 && y == 0) continue; // Just the startNode Pos
+                int checkX = startNode.gridX;
+                int checkY = startNode.gridY;
+                if (checkX>=0 && checkX<gridSizeX && checkY>=0 && checkY<gridSizeY) 
+                    neighbors.Add(this.grid[checkX, checkY]); 
+            }
+        }
+        return neighbors;
     }
 
     public Node NodeFromWorldPoint(Vector3 worldPos)
     {
         // Basically a percentage where you at 0.5 is X=0 if gridWorldSize=100 (X=-50,X=50)
-        // Similarly for the Z if it was 0.5 Z=0 if gridWorldSize=100 (Z=-50, Z=50)
+        // Similarly for the Z if it was 0.5, then Z=0 if gridWorldSize=100 (Z=-50, Z=50)
         float percentX = (worldPos.x + gridWorldSize.x/2) / gridWorldSize.x;
         float percentZ = (worldPos.z + gridWorldSize.y/2) / gridWorldSize.y;
         percentX = Mathf.Clamp01(percentX);
@@ -51,7 +62,7 @@ public class NodeGrid : MonoBehaviour
             {
                 Vector3 worldPoint = worldBottomLeft + Vector3.right * (x * nodeDiameter + nodeRadius) + Vector3.forward * (y * nodeDiameter + nodeRadius);
                 bool walkable = !(Physics.CheckSphere(worldPoint, nodeRadius, unwalkableMask));
-                grid[x, y] = new Node(walkable, worldPoint);
+                grid[x, y] = new Node(walkable, worldPoint, x, y);
             }
         }
     }
