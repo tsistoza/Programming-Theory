@@ -14,6 +14,7 @@ public class PathFinding : MonoBehaviour
        grid = GetComponent<NodeGrid>();
     }
 
+
     private void Update()
     {
         FindPath(seeker.position, target.position);
@@ -23,6 +24,7 @@ public class PathFinding : MonoBehaviour
     {
         Node startNode = grid.NodeFromWorldPoint(startPos);
         Node endNode = grid.NodeFromWorldPoint(targetPos);
+        grid.neighbors = grid.GetAllNeighbors(startNode);
         
         List<Node> openSet = new List<Node>();
         HashSet<Node> closedSet = new HashSet<Node>();

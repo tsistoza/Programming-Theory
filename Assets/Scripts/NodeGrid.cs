@@ -32,8 +32,8 @@ public class NodeGrid : MonoBehaviour
                 if (x == 0 && y == 0) continue; // Just the startNode Pos
                 int checkX = startNode.gridX;
                 int checkY = startNode.gridY;
-                if (checkX>=0 && checkX<gridSizeX && checkY>=0 && checkY<gridSizeY) 
-                    neighbors.Add(this.grid[checkX, checkY]);
+                if (checkX+x>=0 && checkX+x<gridSizeX && checkY+y>=0 && checkY+y<gridSizeY) 
+                    neighbors.Add(this.grid[checkX+x, checkY+y]);
             }
         }
         return neighbors;
