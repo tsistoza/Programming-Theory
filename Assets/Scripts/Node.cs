@@ -11,6 +11,7 @@ public class Node
 
     public int gCost;
     public int hCost;
+    public Node parent; // this is used to retrace our path, after finding the shortest path to endnode
 
     public Node(bool _walkable, Vector3 _worldPos, int _gridX, int _gridY)
     {

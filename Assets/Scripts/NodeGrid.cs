@@ -21,6 +21,7 @@ public class NodeGrid : MonoBehaviour
         CreateGrid();
     }
 
+
     public List<Node> GetAllNeighbors(Node startNode)
     {
         List<Node> neighbors = new List<Node>();
@@ -32,7 +33,7 @@ public class NodeGrid : MonoBehaviour
                 int checkX = startNode.gridX;
                 int checkY = startNode.gridY;
                 if (checkX>=0 && checkX<gridSizeX && checkY>=0 && checkY<gridSizeY) 
-                    neighbors.Add(this.grid[checkX, checkY]); 
+                    neighbors.Add(this.grid[checkX, checkY]);
             }
         }
         return neighbors;
@@ -67,6 +68,8 @@ public class NodeGrid : MonoBehaviour
         }
     }
 
+    public List<Node> path;
+
     private void OnDrawGizmos()
     {
         Gizmos.DrawWireCube(transform.position, new Vector3(gridWorldSize.x, 1, gridWorldSize.y));
@@ -75,6 +78,10 @@ public class NodeGrid : MonoBehaviour
             foreach (Node node in grid)
             {
                 Gizmos.color = (node.walkable) ? Color.white : Color.red;
+                if (path!= null && path.Contains(node))
+                {
+                    Gizmos.color = Color.black;
+                }
                 Gizmos.DrawCube(node.worldPos, Vector3.one * (nodeDiameter-.1f));
             }
         }
