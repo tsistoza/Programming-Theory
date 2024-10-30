@@ -73,7 +73,6 @@ public class NodeGrid : MonoBehaviour
         }
     }
 
-    public List<Node> path;
 
     private void OnDrawGizmos()
     {
@@ -83,10 +82,6 @@ public class NodeGrid : MonoBehaviour
             foreach (Node node in grid)
             {
                 Gizmos.color = (node.walkable) ? Color.white : Color.red;
-                if (path!= null && path.Contains(node))
-                {
-                    Gizmos.color = Color.black;
-                }
                 Gizmos.DrawCube(node.worldPos, Vector3.one * (nodeDiameter-.1f));
             }
         }

@@ -6,28 +6,27 @@ using UnityEngine;
 public class PathFinding : MonoBehaviour
 {
 
-    public Transform seeker, target;
     NodeGrid grid;
+    public bool pathSuccess;
 
     private void Awake()
     {
        grid = GetComponent<NodeGrid>();
     }
 
-
-    private void Update()
+    public static void StartFindPath(Vector3 startPos,Vector3 targetPos)
     {
-        if (Input.GetButtonDown("Jump"))
-        {
-            FindPath(seeker.position, target.position);
-        }
+        StartCoroutine(FindPath(startPos, targetPos));
     }
 
-    void FindPath(Vector3 startPos, Vector3 targetPos)
+    IEnumerator FindPath(Vector3 startPos, Vector3 targetPos)
     {
         Node startNode = grid.NodeFromWorldPoint(startPos);
         Node endNode = grid.NodeFromWorldPoint(targetPos);
-        
+        Vector3[] waypoints = new Vector3[0];
+
+        if (startNode.walkable && endNode.walkable) StopCoroutine("FindPath");
+
         Heap<Node> openSet = new Heap<Node>(grid.MaxSize);
         HashSet<Node> closedSet = new HashSet<Node>();
         openSet.Add(startNode);
@@ -39,8 +38,9 @@ public class PathFinding : MonoBehaviour
 
             if (currentNode == endNode)
             {
+                pathSuccess = true;
                 RetracePath(startNode, endNode);
-                return;
+                break;
             }
 
             foreach(Node neighbor in grid.GetAllNeighbors(currentNode))
@@ -60,11 +60,11 @@ public class PathFinding : MonoBehaviour
                     if (!openSet.Contains(neighbor)) openSet.Add(neighbor);
                 }
             }
-
         }
+        yield return null;
     }
 
-    void RetracePath(Node startNode, Node endNode)
+    Vector3[] RetracePath(Node startNode, Node endNode)
     {
         // This will give us the shortest path
         List<Node> path = new List<Node>();
@@ -75,10 +75,24 @@ public class PathFinding : MonoBehaviour
             path.Add(currentNode);
             currentNode = currentNode.parent;
         }
-        path.Reverse();
+        Vector3[] waypoints = SimplifyPath(path);
+        Array.Reverse(waypoints);
+        return waypoints;
+    }
 
-        grid.path = path;
-        return;
+    Vector3[] SimplifyPath(List<Node> path)
+    {
+        List<Vector3> waypoints = new List<Vector3>();
+        Vector2 directionOld = Vector2.zero;
+
+        for (int i = 1; i < path.Count; i++)
+        {
+            Vector2 directionNew = new Vector3(path[i - 1].gridX - path[i].gridX,
+                                               path[i - 1].gridY - path[i].gridY);
+            if (directionNew != directionOld) waypoints.Add(path[i].worldPos);
+            directionOld = directionNew;
+        }
+        return waypoints.ToArray();
     }
 
     int GetDistance(Node nodeA, Node nodeB)
