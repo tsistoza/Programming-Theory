@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel.Design;
 using UnityEngine;
 
 public class Heap<T> where T : IHeapItem<T>
@@ -31,14 +32,48 @@ public class Heap<T> where T : IHeapItem<T>
         return firstItem;
     }
 
+    public void UpdateItem(T item)
+    {
+        SortUp(item);
+        return;
+    }
+
+    public int Count
+    {
+        get { return currentItemCount; }
+    }
+
+    public bool Contains(T item)
+    {
+        return Equals(items[item.HeapIndex], item);
+    }
+
     void SortDown(T item)
     {
         while (true)
         {
             int childIndexLeft = item.HeapIndex * 2 + 1;
             int childIndexRight = item.HeapIndex * 2 + 2;
+            int swapIndex = 0;
+
+            if (childIndexLeft < currentItemCount)
+            {
+                swapIndex = childIndexLeft;
+
+                if (childIndexRight < currentItemCount)
+                {
+                    if (items[childIndexLeft].CompareTo(items[childIndexRight]) < 0)
+                    {
+                        swapIndex = childIndexRight;
+                    }
+                }
+
+                if (item.CompareTo(items[swapIndex]) < 0)
+                {
+                    Swap(item, items[swapIndex]);
+                } else return;
+            } else return;
         }
-        return;
     }
 
     void SortUp(T item)
@@ -50,7 +85,8 @@ public class Heap<T> where T : IHeapItem<T>
             if (item.CompareTo(parentItem) > 0)
             {
                 Swap(item, parentItem);
-            }
+            } else break;
+            parentIndex = (item.HeapIndex - 1) / 2;
         }
     }
 
@@ -59,6 +95,8 @@ public class Heap<T> where T : IHeapItem<T>
         items[itemA.HeapIndex] = itemB;
         items[itemB.HeapIndex] = itemA;
         int itemAIndex = itemA.HeapIndex;
+        itemA.HeapIndex = itemB.HeapIndex;
+        itemB.HeapIndex = itemAIndex;
     }
 
 }

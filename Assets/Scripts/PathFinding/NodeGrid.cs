@@ -21,6 +21,11 @@ public class NodeGrid : MonoBehaviour
         CreateGrid();
     }
 
+    public int MaxSize
+    {
+        get { return gridSizeX * gridSizeY; }
+    }
+
 
     public List<Node> GetAllNeighbors(Node startNode)
     {
