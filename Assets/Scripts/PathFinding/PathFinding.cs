@@ -39,7 +39,8 @@ public class PathFinding : MonoBehaviour
             if (currentNode == endNode)
             {
                 pathSuccess = true;
-                RetracePath(startNode, endNode);
+                Vector3[] path = RetracePath(startNode, endNode);
+                PathRequestManager.Instance.FinishedProcessingPath(path, pathSuccess);
                 break;
             }
 

@@ -73,7 +73,7 @@ public class NodeGrid : MonoBehaviour
         }
     }
 
-
+    public Node startNode;
     private void OnDrawGizmos()
     {
         Gizmos.DrawWireCube(transform.position, new Vector3(gridWorldSize.x, 1, gridWorldSize.y));
@@ -82,6 +82,10 @@ public class NodeGrid : MonoBehaviour
             foreach (Node node in grid)
             {
                 Gizmos.color = (node.walkable) ? Color.white : Color.red;
+                if (node == startNode)
+                {
+                    Gizmos.color = Color.yellow;
+                }
                 Gizmos.DrawCube(node.worldPos, Vector3.one * (nodeDiameter-.1f));
             }
         }

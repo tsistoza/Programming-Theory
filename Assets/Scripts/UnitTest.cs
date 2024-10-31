@@ -6,14 +6,17 @@ public class UnitTest : MonoBehaviour
 {
 
     public Transform target;
-    float speed = 5;
+    float speed = 20;
     Vector3[] path;
     int targetIndex;
+    public NodeGrid grid;
 
     // Start is called before the first frame update
     void Start()
     {
         PathRequestManager.RequestPath(transform.position, target.position, OnPathFound);
+        grid = GameObject.Find("A*").GetComponent<NodeGrid>();
+        grid.startNode = grid.NodeFromWorldPoint(transform.position);
     }
 
     // Update is called once per frame
@@ -46,7 +49,7 @@ public class UnitTest : MonoBehaviour
                 currentWaypoint = path[targetIndex];
             }
 
-            transform.position = Vector3.MoveTowards(transform.position, currentWaypoint, speed);
+            transform.position = Vector3.MoveTowards(transform.position, currentWaypoint, speed*Time.deltaTime);
             yield return null;
         }
     }
