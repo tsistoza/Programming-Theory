@@ -14,7 +14,7 @@ public class PathFinding : MonoBehaviour
        grid = GetComponent<NodeGrid>();
     }
 
-    public static void StartFindPath(Vector3 startPos,Vector3 targetPos)
+    public void StartFindPath(Vector3 startPos,Vector3 targetPos)
     {
         StartCoroutine(FindPath(startPos, targetPos));
     }

@@ -13,7 +13,7 @@ public class NodeGrid : MonoBehaviour
     private int gridSizeX, gridSizeY;
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         nodeDiameter = nodeRadius * 2;
         gridSizeX = Mathf.RoundToInt(gridWorldSize.x / nodeDiameter);
