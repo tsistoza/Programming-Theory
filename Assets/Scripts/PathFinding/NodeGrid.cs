@@ -8,16 +8,27 @@ public class NodeGrid : MonoBehaviour
     public Vector2 gridWorldSize;
     public float nodeRadius;
     Node[,] grid;
+    public TerrainType[] walkableRegions;
+    public LayerMask walkableMask;
+    Dictionary<int, int> walkableRegionsDictionary = new Dictionary<int, int>();
 
+    private bool dDebug;
     private float nodeDiameter;
     private int gridSizeX, gridSizeY;
 
     // Start is called before the first frame update
     void Awake()
     {
+        dDebug = false;
         nodeDiameter = nodeRadius * 2;
         gridSizeX = Mathf.RoundToInt(gridWorldSize.x / nodeDiameter);
         gridSizeY = Mathf.RoundToInt(gridWorldSize.y / nodeDiameter);
+        
+        foreach(TerrainType region in walkableRegions)
+        {
+            walkableMask.value += region.mask.value;
+            walkableRegionsDictionary.Add((int)Mathf.Log(region.mask.value, 2), region.penalty);
+        }
         CreateGrid();
     }
 
@@ -68,7 +79,18 @@ public class NodeGrid : MonoBehaviour
             {
                 Vector3 worldPoint = worldBottomLeft + Vector3.right * (x * nodeDiameter + nodeRadius) + Vector3.forward * (y * nodeDiameter + nodeRadius);
                 bool walkable = !(Physics.CheckSphere(worldPoint, nodeRadius, unwalkableMask));
-                grid[x, y] = new Node(walkable, worldPoint, x, y);
+                int penalty = 0;
+
+                if (walkable)
+                {
+                    Ray ray = new Ray(worldPoint + Vector3.up * 50, Vector3.down);
+                    RaycastHit hit;
+                    if (Physics.Raycast(ray, out hit, 100, walkableMask))
+                    {
+                        walkableRegionsDictionary.TryGetValue(hit.collider.gameObject.layer, out penalty);
+                    }
+                }
+                grid[x, y] = new Node(walkable, worldPoint, x, y, penalty);
             }
         }
     }
@@ -76,6 +98,7 @@ public class NodeGrid : MonoBehaviour
     public Node startNode;
     private void OnDrawGizmos()
     {
+        if (!dDebug) return;
         Gizmos.DrawWireCube(transform.position, new Vector3(gridWorldSize.x, 1, gridWorldSize.y));
         if (grid != null)
         {
@@ -90,4 +113,11 @@ public class NodeGrid : MonoBehaviour
             }
         }
     }
+}
+
+[System.Serializable]
+public class TerrainType
+{
+    public LayerMask mask;
+    public int penalty;
 }

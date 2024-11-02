@@ -13,13 +13,15 @@ public class Node : IHeapItem<Node>
     public int hCost;
     public Node parent; // this is used to retrace our path, after finding the shortest path to endnode
     private int heapIndex;
+    public int movementPenalty;
 
-    public Node(bool _walkable, Vector3 _worldPos, int _gridX, int _gridY)
+    public Node(bool _walkable, Vector3 _worldPos, int _gridX, int _gridY, int penalty)
     {
         walkable = _walkable;
         worldPos = _worldPos;
         this.gridX = _gridX;
         this.gridY = _gridY;
+        this.movementPenalty = penalty;
     }
 
     public int fCost
