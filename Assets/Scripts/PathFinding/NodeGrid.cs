@@ -7,19 +7,24 @@ public class NodeGrid : MonoBehaviour
     public LayerMask unwalkableMask;
     public Vector2 gridWorldSize;
     public float nodeRadius;
+    public int unwalkablePenalty;
     Node[,] grid;
     public TerrainType[] walkableRegions;
     public LayerMask walkableMask;
     Dictionary<int, int> walkableRegionsDictionary = new Dictionary<int, int>();
 
-    private bool dDebug;
+    [SerializeField] private bool dDebug;
     private float nodeDiameter;
     private int gridSizeX, gridSizeY;
+
+    // DEBUG
+    private int minPenalty = int.MaxValue;
+    private int maxPenalty = int.MinValue;
 
     // Start is called before the first frame update
     void Awake()
     {
-        dDebug = false;
+        dDebug = true;
         nodeDiameter = nodeRadius * 2;
         gridSizeX = Mathf.RoundToInt(gridWorldSize.x / nodeDiameter);
         gridSizeY = Mathf.RoundToInt(gridWorldSize.y / nodeDiameter);
@@ -69,15 +74,22 @@ public class NodeGrid : MonoBehaviour
                 penaltiesHorizontalPass[x, 0] += grid[x, sampleY].movementPenalty;
             }
 
+            int blurredPenalty = Mathf.RoundToInt((float)penaltiesVerticalPass[x, 0] / (boxSize * boxSize));
+            grid[x, 0].movementPenalty = blurredPenalty;
+
             for (int y = 1; y < gridSizeX; y++)
             {
                 int removeIndex = Mathf.Clamp(y - boxExtents - 1, 0, gridSizeX);
                 int addIndex = Mathf.Clamp(y + boxExtents, 0, gridSizeX - 1);
                 penaltiesHorizontalPass[x, y] = penaltiesHorizontalPass[x, y - 1] - penaltiesHorizontalPass[x, removeIndex] + penaltiesHorizontalPass[x, addIndex];
-                int blurredPenalty = Mathf.RoundToInt((float)penaltiesVerticalPass[x, y] / (boxSize * boxSize));
+                blurredPenalty = Mathf.RoundToInt((float)penaltiesVerticalPass[x, y] / (boxSize * boxSize));
+                grid[x, y].movementPenalty = blurredPenalty;
+
+                // DEBUG
+                if (blurredPenalty > maxPenalty) maxPenalty = blurredPenalty;
+                if (blurredPenalty < minPenalty) minPenalty = blurredPenalty;
             }
         }
-
     }
 
     public List<Node> GetAllNeighbors(Node startNode)
@@ -123,6 +135,9 @@ public class NodeGrid : MonoBehaviour
                 bool walkable = !(Physics.CheckSphere(worldPoint, nodeRadius, unwalkableMask));
                 int penalty = 0;
 
+                if (!walkable) penalty += unwalkablePenalty;
+
+
                 if (walkable)
                 {
                     Ray ray = new Ray(worldPoint + Vector3.up * 50, Vector3.down);
@@ -139,7 +154,6 @@ public class NodeGrid : MonoBehaviour
         BlurPenaltyMap(3);
     }
 
-    public Node startNode;
     private void OnDrawGizmos()
     {
         if (!dDebug) return;
@@ -148,11 +162,8 @@ public class NodeGrid : MonoBehaviour
         {
             foreach (Node node in grid)
             {
-                Gizmos.color = (node.walkable) ? Color.white : Color.red;
-                if (node == startNode)
-                {
-                    Gizmos.color = Color.yellow;
-                }
+                Gizmos.color = Color.Lerp(Color.white, Color.black, Mathf.InverseLerp(minPenalty, maxPenalty, node.movementPenalty));
+                Gizmos.color = (node.walkable) ? Gizmos.color : Color.red;
                 Gizmos.DrawCube(node.worldPos, Vector3.one * (nodeDiameter-.1f));
             }
         }

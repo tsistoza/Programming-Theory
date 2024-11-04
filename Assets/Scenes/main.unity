@@ -1349,7 +1349,7 @@ Transform:
   m_GameObject: {fileID: 1210267257}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 72.9, y: -199.37, z: 101.1}
+  m_LocalPosition: {x: 123, y: -199.37, z: 132.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2220,6 +2220,7 @@ MonoBehaviour:
     m_Bits: 512
   gridWorldSize: {x: 300, y: 300}
   nodeRadius: 2
+  unwalkablePenalty: 0
   walkableRegions:
   - mask:
       serializedVersion: 2
@@ -2228,10 +2229,11 @@ MonoBehaviour:
   - mask:
       serializedVersion: 2
       m_Bits: 1088
-    penalty: -5
+    penalty: 5
   walkableMask:
     serializedVersion: 2
     m_Bits: 0
+  dDebug: 0
 --- !u!4 &1977874247
 Transform:
   m_ObjectHideFlags: 0

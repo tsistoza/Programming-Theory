@@ -16,7 +16,6 @@ public class UnitTest : MonoBehaviour
     {
         PathRequestManager.RequestPath(transform.position, target.position, OnPathFound);
         grid = GameObject.Find("A*").GetComponent<NodeGrid>();
-        grid.startNode = grid.NodeFromWorldPoint(transform.position);
     }
 
     // Update is called once per frame
