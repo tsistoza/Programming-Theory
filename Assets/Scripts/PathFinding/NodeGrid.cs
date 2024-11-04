@@ -37,6 +37,48 @@ public class NodeGrid : MonoBehaviour
         get { return gridSizeX * gridSizeY; }
     }
 
+    private void BlurPenaltyMap(int blurSize)
+    {
+        int boxSize = blurSize * 2 + 1;
+        int boxExtents = (int)(boxSize - 1) / 2;
+
+        int[ , ] penaltiesHorizontalPass = new int[gridSizeX, gridSizeY];
+        int[ , ] penaltiesVerticalPass = new int[gridSizeX, gridSizeY];
+
+        for (int y = 0; y < gridSizeX; y++)
+        {
+            for (int x = -boxExtents; x <= boxExtents; x++)
+            {
+                int sampleX = Mathf.Clamp(x, 0, boxExtents);
+                penaltiesHorizontalPass[0, y] += grid[sampleX, y].movementPenalty;
+            }
+
+            for (int x = 1; x < gridSizeX; x++)
+            {
+                int removeIndex = Mathf.Clamp(x - boxExtents - 1, 0, gridSizeX);
+                int addIndex = Mathf.Clamp(x + boxExtents, 0, gridSizeX - 1);
+                penaltiesHorizontalPass[x, y] = penaltiesHorizontalPass[x - 1, y] - grid[removeIndex, y].movementPenalty + grid[addIndex, y].movementPenalty;
+            }
+        }
+
+        for (int x = 0; x < gridSizeX; x++)
+        {
+            for (int y = -boxExtents; y <= boxExtents; y++)
+            {
+                int sampleY = Mathf.Clamp(y, 0, boxExtents);
+                penaltiesHorizontalPass[x, 0] += grid[x, sampleY].movementPenalty;
+            }
+
+            for (int y = 1; y < gridSizeX; y++)
+            {
+                int removeIndex = Mathf.Clamp(y - boxExtents - 1, 0, gridSizeX);
+                int addIndex = Mathf.Clamp(y + boxExtents, 0, gridSizeX - 1);
+                penaltiesHorizontalPass[x, y] = penaltiesHorizontalPass[x, y - 1] - penaltiesHorizontalPass[x, removeIndex] + penaltiesHorizontalPass[x, addIndex];
+                int blurredPenalty = Mathf.RoundToInt((float)penaltiesVerticalPass[x, y] / (boxSize * boxSize));
+            }
+        }
+
+    }
 
     public List<Node> GetAllNeighbors(Node startNode)
     {
@@ -93,6 +135,8 @@ public class NodeGrid : MonoBehaviour
                 grid[x, y] = new Node(walkable, worldPoint, x, y, penalty);
             }
         }
+
+        BlurPenaltyMap(3);
     }
 
     public Node startNode;
