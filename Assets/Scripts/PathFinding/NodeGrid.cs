@@ -60,12 +60,12 @@ public class NodeGrid : MonoBehaviour
     private void BlurPenaltyMap(int blurSize)
     {
         int boxSize = blurSize * 2 + 1;
-        int boxExtents = (int)(boxSize - 1) / 2;
+        int boxExtents = (boxSize - 1) / 2;
 
         int[ , ] penaltiesHorizontalPass = new int[gridSizeX, gridSizeY];
         int[ , ] penaltiesVerticalPass = new int[gridSizeX, gridSizeY];
 
-        for (int y = 0; y < gridSizeX; y++)
+        for (int y = 0; y < gridSizeY; y++)
         {
             for (int x = -boxExtents; x <= boxExtents; x++)
             {
@@ -86,17 +86,17 @@ public class NodeGrid : MonoBehaviour
             for (int y = -boxExtents; y <= boxExtents; y++)
             {
                 int sampleY = Mathf.Clamp(y, 0, boxExtents);
-                penaltiesHorizontalPass[x, 0] += grid[x, sampleY].movementPenalty;
+                penaltiesVerticalPass[x, 0] += penaltiesHorizontalPass[x, sampleY];
             }
 
             int blurredPenalty = Mathf.RoundToInt((float)penaltiesVerticalPass[x, 0] / (boxSize * boxSize));
             grid[x, 0].movementPenalty = blurredPenalty;
 
-            for (int y = 1; y < gridSizeX; y++)
+            for (int y = 1; y < gridSizeY; y++)
             {
-                int removeIndex = Mathf.Clamp(y - boxExtents - 1, 0, gridSizeX);
-                int addIndex = Mathf.Clamp(y + boxExtents, 0, gridSizeX - 1);
-                penaltiesHorizontalPass[x, y] = penaltiesHorizontalPass[x, y - 1] - penaltiesHorizontalPass[x, removeIndex] + penaltiesHorizontalPass[x, addIndex];
+                int removeIndex = Mathf.Clamp(y - boxExtents - 1, 0, gridSizeY);
+                int addIndex = Mathf.Clamp(y + boxExtents, 0, gridSizeY - 1);
+                penaltiesVerticalPass[x, y] = penaltiesVerticalPass[x, y - 1] - penaltiesHorizontalPass[x, removeIndex] + penaltiesHorizontalPass[x, addIndex];
                 blurredPenalty = Mathf.RoundToInt((float)penaltiesVerticalPass[x, y] / (boxSize * boxSize));
                 grid[x, y].movementPenalty = blurredPenalty;
 
@@ -165,7 +165,7 @@ public class NodeGrid : MonoBehaviour
                 grid[x, y] = new Node(walkable, worldPoint, x, y, penalty);
             }
         }
-        // BlurPenaltyMap(3);
+        BlurPenaltyMap(3);
     }
 
     private void OnDrawGizmos()
@@ -176,9 +176,8 @@ public class NodeGrid : MonoBehaviour
         {
             foreach (Node node in grid)
             {
-                // Gizmos.color = Color.Lerp(Color.white, Color.black, Mathf.InverseLerp(minPenalty, maxPenalty, node.movementPenalty));
+                Gizmos.color = Color.Lerp(Color.white, Color.black, Mathf.InverseLerp(minPenalty, maxPenalty, node.movementPenalty));
                 Gizmos.color = (node.walkable) ? Color.white : Color.red;
-                Gizmos.color = (node.walkable && node.movementPenalty == 0) ? Color.green : Gizmos.color;
                 Gizmos.DrawCube(node.worldPos, Vector3.one * (nodeDiameter-.1f));
             }
         }
