@@ -115,7 +115,7 @@ public class GunHandler : MonoBehaviour
         GameObject bullet = poolScript.GetPooledObject();
         bullet.transform.position = bulletTransform.transform.position;
         bullet.SetActive(true);
-        Debug.Log(aimScript.GetAimDirection().normalized);
+        //Debug.Log(aimScript.GetAimDirection().normalized);
         bullet.GetComponent<Rigidbody>().velocity = aimScript.GetAimDirection().normalized * bulletSpd;
         m_fireDelay = true;
         StartCoroutine(FireDelay());

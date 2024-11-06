@@ -2039,7 +2039,7 @@ Transform:
   m_GameObject: {fileID: 1659528919}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -95.3, y: -194.51, z: 60.7}
+  m_LocalPosition: {x: -84.8, y: -194.51, z: 60.7}
   m_LocalScale: {x: 2.7377942, y: 2.7377942, z: 2.7377942}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2224,12 +2224,8 @@ MonoBehaviour:
   walkableRegions:
   - mask:
       serializedVersion: 2
-      m_Bits: 64
-    penalty: 100
-  - mask:
-      serializedVersion: 2
-      m_Bits: 1088
-    penalty: 5
+      m_Bits: 0
+    penalty: -5
   walkableMask:
     serializedVersion: 2
     m_Bits: 0

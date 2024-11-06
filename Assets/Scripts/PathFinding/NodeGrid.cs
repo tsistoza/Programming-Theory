@@ -24,7 +24,6 @@ public class NodeGrid : MonoBehaviour
     // Start is called before the first frame update
     void Awake()
     {
-        dDebug = true;
         nodeDiameter = nodeRadius * 2;
         gridSizeX = Mathf.RoundToInt(gridWorldSize.x / nodeDiameter);
         gridSizeY = Mathf.RoundToInt(gridWorldSize.y / nodeDiameter);
@@ -141,6 +140,7 @@ public class NodeGrid : MonoBehaviour
                 if (walkable)
                 {
                     Ray ray = new Ray(worldPoint + Vector3.up * 50, Vector3.down);
+                    Debug.DrawRay(worldPoint + Vector3.up * 50, Vector3.down);
                     RaycastHit hit;
                     if (Physics.Raycast(ray, out hit, 100, walkableMask))
                     {
@@ -162,8 +162,9 @@ public class NodeGrid : MonoBehaviour
         {
             foreach (Node node in grid)
             {
-                Gizmos.color = Color.Lerp(Color.white, Color.black, Mathf.InverseLerp(minPenalty, maxPenalty, node.movementPenalty));
-                Gizmos.color = (node.walkable) ? Gizmos.color : Color.red;
+                // Gizmos.color = Color.Lerp(Color.white, Color.black, Mathf.InverseLerp(minPenalty, maxPenalty, node.movementPenalty));
+                Gizmos.color = (node.walkable) ? Color.white : Color.red;
+                Gizmos.color = (node.walkable && node.movementPenalty == 0) ? Color.green : Gizmos.color;
                 Gizmos.DrawCube(node.worldPos, Vector3.one * (nodeDiameter-.1f));
             }
         }
