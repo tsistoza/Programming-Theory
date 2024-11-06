@@ -846,7 +846,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 112
   m_CollisionDetection: 0
 --- !u!65 &915653963
 BoxCollider:
@@ -1107,13 +1107,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1161664527}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: -15.4, y: -201.51, z: 62.8}
+  m_LocalRotation: {x: -0, y: 0.55897707, z: -0, w: 0.82918316}
+  m_LocalPosition: {x: 29.3, y: -201.51, z: 62.8}
   m_LocalScale: {x: 1.0265, y: 1.0265, z: 16.060165}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 67.97, z: 0}
 --- !u!1 &1196451588
 GameObject:
   m_ObjectHideFlags: 0
@@ -1380,7 +1380,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 112
   m_CollisionDetection: 0
 --- !u!1 &1272946243
 GameObject:
@@ -1953,7 +1953,7 @@ GameObject:
   - component: {fileID: 1659528924}
   - component: {fileID: 1659528925}
   m_Layer: 0
-  m_Name: Cube
+  m_Name: Finder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2039,7 +2039,7 @@ Transform:
   m_GameObject: {fileID: 1659528919}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -84.8, y: -194.51, z: 60.7}
+  m_LocalPosition: {x: -84.8, y: -198.62, z: 60.7}
   m_LocalScale: {x: 2.7377942, y: 2.7377942, z: 2.7377942}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2070,7 +2070,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 112
   m_CollisionDetection: 0
 --- !u!114 &1659528925
 MonoBehaviour:
@@ -2225,15 +2225,15 @@ MonoBehaviour:
   - mask:
       serializedVersion: 2
       m_Bits: 64
-    penalty: 5
+    penalty: 100
   - mask:
       serializedVersion: 2
       m_Bits: 1024
-    penalty: -5
+    penalty: 0
   walkableMask:
     serializedVersion: 2
     m_Bits: 0
-  dDebug: 1
+  dDebug: 0
 --- !u!4 &1977874247
 Transform:
   m_ObjectHideFlags: 0
@@ -2527,7 +2527,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 112
   m_CollisionDetection: 0
 --- !u!65 &2127271967
 BoxCollider:

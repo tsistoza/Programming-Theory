@@ -7,9 +7,10 @@ public class UnitTest : MonoBehaviour
 
     public Transform target;
     float speed = 20;
-    Vector3[] path;
+    Path path;
     int targetIndex;
     public NodeGrid grid;
+    public float turnDst = 5;
 
     // Start is called before the first frame update
     void Start()
@@ -24,11 +25,11 @@ public class UnitTest : MonoBehaviour
 
     }
 
-    public void OnPathFound(Vector3[] newPath, bool pathSuccesful)
+    public void OnPathFound(Vector3[] waypoints, bool pathSuccesful)
     {
         if (pathSuccesful)
         {
-            path = newPath;
+            path = new Path(waypoints, transform.position, turnDst);
             StopCoroutine("FollowPath");
             StartCoroutine("FollowPath");
         }
@@ -37,18 +38,9 @@ public class UnitTest : MonoBehaviour
 
     IEnumerator FollowPath()
     {
-        Vector3 currentWaypoint = path[0];
 
         while (true)
         {
-            if (transform.position == currentWaypoint)
-            {
-                targetIndex++;
-                if (targetIndex >= path.Length) yield break;
-                currentWaypoint = path[targetIndex];
-            }
-
-            transform.position = Vector3.MoveTowards(transform.position, currentWaypoint, speed*Time.deltaTime);
             yield return null;
         }
     }
@@ -57,14 +49,7 @@ public class UnitTest : MonoBehaviour
     {
         if (path != null)
         {
-            for (int i = targetIndex; i < path.Length; i++)
-            {
-                Gizmos.color = Color.black;
-                Gizmos.DrawCube(path[i], Vector3.one);
-
-                if (i == targetIndex) Gizmos.DrawLine(transform.position, path[i]);
-                else Gizmos.DrawLine(path[i-1], path[i]);
-            }
+            path.DrawWithGizmos();
         }
     }
 }
