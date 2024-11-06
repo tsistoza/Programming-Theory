@@ -2220,16 +2220,20 @@ MonoBehaviour:
     m_Bits: 512
   gridWorldSize: {x: 300, y: 300}
   nodeRadius: 2
-  unwalkablePenalty: 0
+  unwalkablePenalty: 100
   walkableRegions:
   - mask:
       serializedVersion: 2
-      m_Bits: 0
+      m_Bits: 64
+    penalty: 5
+  - mask:
+      serializedVersion: 2
+      m_Bits: 1024
     penalty: -5
   walkableMask:
     serializedVersion: 2
     m_Bits: 0
-  dDebug: 0
+  dDebug: 1
 --- !u!4 &1977874247
 Transform:
   m_ObjectHideFlags: 0
