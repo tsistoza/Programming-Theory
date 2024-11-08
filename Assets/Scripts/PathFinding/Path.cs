@@ -37,7 +37,7 @@ public class Path
         {
             Gizmos.DrawCube(p + Vector3.up, Vector3.one);
         }
-        Gizmos.color = Color.yellow;
+        Gizmos.color = Color.white;
         foreach (Line l in turnBoundaries)
         {
             l.DrawWithGizmos(10);

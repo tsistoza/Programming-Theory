@@ -11,7 +11,7 @@ public struct Line
     Vector2 pointOnLine_1;
     Vector2 pointOnLine_2;
 
-    float gradientPerpendicular;
+    //float gradientPerpendicular;
 
     bool approachSide;
 
@@ -20,11 +20,8 @@ public struct Line
         float dx = pointOnLine.x - pointPerpendicularToLine.x;
         float dy = pointOnLine.y - pointPerpendicularToLine.y;
 
-        if (dx == 0) gradientPerpendicular = verticalLineGradient;
-        else gradientPerpendicular = dy / dx;
-
-        if (gradientPerpendicular == 0) gradient = verticalLineGradient;
-        else gradient = -1 / gradientPerpendicular;
+        if (dy == 0) gradient = verticalLineGradient;
+        else gradient = -dx / dy;
 
         // y = mx + b, where m is the gradient and b is the y-int
         // b = y - mx
@@ -48,8 +45,8 @@ public struct Line
 
     public void DrawWithGizmos(float length)
     {
-        Vector3 lineDir = new Vector3(1, 0, gradient).normalized;
-        Vector3 lineCenter = new Vector3(pointOnLine_1.x, 0, pointOnLine_1.y) + Vector3.up;
+        Vector3 lineDir = new Vector3(1, -198, gradient).normalized;
+        Vector3 lineCenter = new Vector3(pointOnLine_1.x, -198, pointOnLine_1.y) + Vector3.up;
         Gizmos.DrawLine(lineCenter - lineDir * length / 2f, lineCenter + lineDir * length / 2f);
     }
 }

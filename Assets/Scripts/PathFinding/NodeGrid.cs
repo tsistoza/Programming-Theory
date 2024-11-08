@@ -20,7 +20,6 @@ public class NodeGrid : MonoBehaviour
     // DEBUG
     private int minPenalty = int.MaxValue;
     private int maxPenalty = int.MinValue;
-    private Vector3 cube;
 
     // Start is called before the first frame update
     void Awake()
@@ -35,21 +34,6 @@ public class NodeGrid : MonoBehaviour
             walkableRegionsDictionary.Add((int)Mathf.Log(region.mask.value, 2), region.penalty);
         }
         CreateGrid();
-        cube = GameObject.Find("Finder").transform.position;
-    }
-
-    private void Update()
-    {
-        Debug.Log(cube);
-        Ray ray = new Ray(cube + Vector3.up * 50, Vector3.down);
-        Debug.DrawRay(cube + Vector3.up*50, Vector3.down*50);
-        RaycastHit hit;
-        if (Physics.Raycast(ray, out hit, 100f, walkableMask))
-        {
-            int penalty;
-            Debug.Log(walkableRegionsDictionary.TryGetValue(hit.collider.gameObject.layer, out penalty));
-            //Debug.Log(penalty);
-        }
     }
 
     public int MaxSize
