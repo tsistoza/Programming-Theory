@@ -45,8 +45,8 @@ public struct Line
 
     public void DrawWithGizmos(float length)
     {
-        Vector3 lineDir = new Vector3(1, -198, gradient).normalized;
-        Vector3 lineCenter = new Vector3(pointOnLine_1.x, -198, pointOnLine_1.y) + Vector3.up;
+        Vector3 lineDir = new Vector3(1, 0, gradient).normalized;
+        Vector3 lineCenter = new Vector3(pointOnLine_1.x, -201, pointOnLine_1.y) + Vector3.up;
         Gizmos.DrawLine(lineCenter - lineDir * length / 2f, lineCenter + lineDir * length / 2f);
     }
 }
