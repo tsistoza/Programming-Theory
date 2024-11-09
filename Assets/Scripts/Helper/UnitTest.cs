@@ -6,23 +6,17 @@ public class UnitTest : MonoBehaviour
 {
 
     public Transform target;
-    float speed = 20;
-    Path path;
-    int targetIndex;
+    [SerializeField] private float speed = 20;
+    [SerializeField] private float turnSpeed = 3;
+    private Path path;
+    private int targetIndex;
     public NodeGrid grid;
     public float turnDst = 5;
 
-    // Start is called before the first frame update
     void Start()
     {
         PathRequestManager.RequestPath(transform.position, target.position, OnPathFound);
         grid = GameObject.Find("A*").GetComponent<NodeGrid>();
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
     }
 
     public void OnPathFound(Vector3[] waypoints, bool pathSuccesful)
@@ -38,9 +32,28 @@ public class UnitTest : MonoBehaviour
 
     IEnumerator FollowPath()
     {
-
+        bool followingPath = true;
+        int pathIndex = 0;
+        transform.LookAt(path.lookPoints[0]);
         while (true)
         {
+            Vector3 pos2D = new Vector2(transform.position.x, transform.position.z);
+            while (path.turnBoundaries[pathIndex].HasCrossedLine(pos2D))
+            {
+                if (pathIndex == path.finishLineIndex)
+                {
+                    followingPath = false;
+                    break;
+                }
+                else pathIndex++;
+            }
+
+            if (followingPath)
+            {
+                Quaternion targetRotation = Quaternion.LookRotation(path.lookPoints[pathIndex] - transform.position);
+                transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, Time.deltaTime * turnSpeed);
+                transform.Translate(Vector3.forward * Time.deltaTime * speed, Space.Self);
+            }
             yield return null;
         }
     }
