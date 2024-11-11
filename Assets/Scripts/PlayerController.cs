@@ -10,7 +10,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private int playerMaxHp;
     [SerializeField] private int numBullets;
     [SerializeField] private bool cooldownInvicibility;
-    
+    [SerializeField] private GameObject PlayerMenuObj;
 
     // Player Perks
     public List<Perk> perks;
@@ -46,12 +46,13 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
+        PlayerMenu();
         PlayerRegen();
     }
 
     private void FixedUpdate()
     {
-        if (!GameManager.Instance.m_gameOver)
+        if (!GameManager.Instance.m_gameOver && !MenuMain.Instance.paused)
         {
             PlayerMovement();
         }
@@ -81,6 +82,15 @@ public class PlayerController : MonoBehaviour
         if (m_regen.Wait() && PlayerHitPoints < PlayerMaxHp)
         {
             PlayerHitPoints++;
+        }
+    }
+
+    private void PlayerMenu ()
+    {
+        if (Input.GetKey(KeyCode.Escape))
+        {
+            MenuMain.Instance.paused = true;
+            PlayerMenuObj.SetActive(true);
         }
     }
 

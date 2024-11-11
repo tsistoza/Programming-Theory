@@ -41,7 +41,7 @@ public class GunHandler : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!GameManager.Instance.m_gameOver)
+        if (!GameManager.Instance.m_gameOver && !MenuMain.Instance.paused)
         {
             Fire();
         }

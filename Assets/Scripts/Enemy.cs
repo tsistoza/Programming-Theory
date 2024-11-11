@@ -51,7 +51,7 @@ public class Enemy : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (!GameManager.Instance.m_gameOver && isGrounded)
+        if (!GameManager.Instance.m_gameOver && isGrounded && !MenuMain.Instance.paused)
         {
             EnemyMove();
         }
