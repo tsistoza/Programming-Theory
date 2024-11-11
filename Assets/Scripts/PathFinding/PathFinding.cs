@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 
 
@@ -65,6 +66,56 @@ public class PathFinding : MonoBehaviour
         }
         yield return null;
     }
+
+    // This is used for the Thread Version of this
+    public void FindPathThread(PathRequest request, Action<PathResult> callback)
+    {
+        Node startNode = grid.NodeFromWorldPoint(request.pathStart);
+        Node endNode = grid.NodeFromWorldPoint(request.pathEnd);
+        Vector3[] waypoints = new Vector3[0];
+
+        Heap<Node> openSet = new Heap<Node>(grid.MaxSize);
+        HashSet<Node> closedSet = new HashSet<Node>();
+        openSet.Add(startNode);
+
+        while (openSet.Count > 0)
+        {
+            Node currentNode = openSet.removeFirst();
+            closedSet.Add(currentNode);
+
+            if (currentNode == endNode)
+            {
+                pathSuccess = true;
+                break;
+            }
+
+            foreach (Node neighbor in grid.GetAllNeighbors(currentNode))
+            {
+                if (!neighbor.walkable || closedSet.Contains(neighbor))
+                {
+                    continue;
+                }
+
+                int newMovementCostToNeighbor = currentNode.gCost + GetDistance(currentNode, neighbor) + neighbor.movementPenalty;
+                if (newMovementCostToNeighbor < neighbor.gCost || !openSet.Contains(neighbor))
+                {
+                    neighbor.gCost = newMovementCostToNeighbor;
+                    neighbor.hCost = GetDistance(neighbor, endNode);
+                    neighbor.parent = currentNode;
+
+                    if (!openSet.Contains(neighbor)) openSet.Add(neighbor);
+                }
+            }
+        }
+        if (pathSuccess)
+        {
+            waypoints = RetracePath(startNode, endNode);
+            pathSuccess = waypoints.Length > 0;
+        }
+        callback(new PathResult(waypoints, pathSuccess, request.callback));
+    }
+
+
 
     Vector3[] RetracePath(Node startNode, Node endNode)
     {

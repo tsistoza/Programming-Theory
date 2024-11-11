@@ -14,6 +14,7 @@ public class UnitTest : MonoBehaviour
     private int targetIndex;
     public NodeGrid grid;
     public float turnDst = 5;
+    public bool thread;
 
     void Start()
     {
@@ -47,7 +48,8 @@ public class UnitTest : MonoBehaviour
             yield return new WaitForSeconds(minPathUpdateTime);
             if ((target.position - targetPosOld).sqrMagnitude > sqrMoveThreshold)
             {
-                PathRequestManager.RequestPath(transform.position, target.position, OnPathFound);
+                if (thread) PathThreadManager.RequestPathThread(new PathRequest(transform.position, target.position, OnPathFound));
+                else PathRequestManager.RequestPath(transform.position, target.position, OnPathFound);
                 targetPosOld = target.position;
             }
         }

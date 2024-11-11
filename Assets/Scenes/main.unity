@@ -820,7 +820,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 1210267261}
+  speed: 20
+  turnSpeed: 3
   grid: {fileID: 0}
+  turnDst: 5
+  thread: 1
 --- !u!54 &915653962
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -2085,7 +2089,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 1210267261}
+  speed: 20
+  turnSpeed: 3
   grid: {fileID: 0}
+  turnDst: 5
+  thread: 1
 --- !u!1 &1672562897
 GameObject:
   m_ObjectHideFlags: 0
@@ -2196,6 +2204,7 @@ GameObject:
   - component: {fileID: 1977874246}
   - component: {fileID: 1977874248}
   - component: {fileID: 1977874249}
+  - component: {fileID: 1977874250}
   m_Layer: 0
   m_Name: A*
   m_TagString: Untagged
@@ -2272,6 +2281,19 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 86b96e62679c0344da1ef56da309fbca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  thread: 1
+--- !u!114 &1977874250
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1977874245}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b92c78cdc7df16c448624d38b84c2754, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1979447133
@@ -2501,7 +2523,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 1210267261}
+  speed: 20
+  turnSpeed: 3
   grid: {fileID: 0}
+  turnDst: 5
+  thread: 1
 --- !u!54 &2127271966
 Rigidbody:
   m_ObjectHideFlags: 0

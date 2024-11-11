@@ -10,6 +10,7 @@ public class PathRequestManager : MonoBehaviour
 
     public static PathRequestManager Instance { get; private set; }
     private PathFinding pathFinding;
+    public bool thread;
 
     private bool isProcessingPath;
 
@@ -22,6 +23,14 @@ public class PathRequestManager : MonoBehaviour
         }
         Instance = this;
         pathFinding = GetComponent<PathFinding>();
+    }
+
+    private void Start()
+    {
+        if (thread)
+        {
+            Destroy(this);
+        }
     }
 
     public static void RequestPath(Vector3 pathStart, Vector3 pathEnd, Action<Vector3[], bool> callback)
