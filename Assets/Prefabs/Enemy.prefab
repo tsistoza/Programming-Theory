@@ -119,9 +119,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dbd71e85154b89d42ba3f7192d1241cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemySpd: 25
+  enemySpd: 1.2
+  turnDst: 5
+  turnSpeed: 3
+  minPathUpdateTime: 0.1
+  pathUpdateMoveThreshold: 0.4
   enemyHitpoints: 1
   gunScript: {fileID: 0}
+  perkScript: {fileID: 0}
+  perks: 
+  nodegrid: {fileID: 0}
+  Player: {fileID: 0}
 --- !u!54 &7144406486698074613
 Rigidbody:
   m_ObjectHideFlags: 0

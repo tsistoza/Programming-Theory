@@ -1,6 +1,8 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using UnityEngine;
 
 /// <summary>
@@ -11,6 +13,12 @@ public class Enemy : MonoBehaviour
     // Modifiers
     [SerializeField] private float enemySpd = 1.0f;
     private bool isGrounded;
+    private Node currentNode;
+    private Node endNode;
+    [SerializeField] private float turnDst = 5.0f;
+    [SerializeField] private float turnSpeed = 3.0f;
+    [SerializeField] private float minPathUpdateTime = 0.1f;
+    [SerializeField] private float pathUpdateMoveThreshold = 0.4f;
 
     public float EnemySpd { 
         get { return enemySpd; }
@@ -26,6 +34,9 @@ public class Enemy : MonoBehaviour
     [SerializeField] private GunHandler gunScript;
     [SerializeField] private PerkHandler perkScript;
     public List<Perk> perks;
+    [SerializeField] private NodeGrid nodegrid;
+    [SerializeField] private GameObject Player;
+    private Path path;
 
     private bool isPoisoned;
     Cooldown duration;
@@ -35,10 +46,13 @@ public class Enemy : MonoBehaviour
     {
         gunScript = GameObject.Find("Player").GetComponent<GunHandler>();
         perkScript = GameObject.Find("Player").GetComponent<PerkHandler>();
+        nodegrid = GameObject.Find("A*").GetComponent<NodeGrid>();
+        Player = GameObject.Find("Player");
         duration = new Cooldown((float)perkScript.PoisonDuration);
         timer = new Cooldown((float)2f);
         isGrounded = false;
         EnemyHPScaling();
+        StartCoroutine(UpdatePath());
     }
 
     private void Update()
@@ -47,6 +61,9 @@ public class Enemy : MonoBehaviour
         {
             PoisonDamage(duration, timer);
         }
+
+        currentNode = nodegrid.NodeFromWorldPoint(transform.position);
+        endNode = nodegrid.NodeFromWorldPoint(Player.transform.position);
     }
 
     void FixedUpdate()
@@ -56,7 +73,70 @@ public class Enemy : MonoBehaviour
             EnemyMove();
         }
     }
+    
+    // Path Finding
+    public void OnPathFound(Vector3[] waypoints, bool pathSuccessful)
+    {
+        if (pathSuccessful)
+        {
+            path = new Path(waypoints, transform.position, turnDst);
+            StartCoroutine(FollowPath());
+            StopCoroutine(FollowPath());
+        }
+        return;
+    }
 
+    IEnumerator UpdatePath()
+    {
+        if (Time.timeSinceLevelLoad < .3f)
+        {
+            yield return new WaitForSeconds(.3f);
+        }
+        PathRequestManager.RequestPath(transform.position, Player.transform.position, OnPathFound);
+        float sqrMoveThreshold = pathUpdateMoveThreshold * pathUpdateMoveThreshold; ;
+        Vector3 targetPosOld = Player.transform.position;
+
+        while (true)
+        {
+            yield return new WaitForSeconds(minPathUpdateTime);
+
+            if ((Player.transform.position - targetPosOld).sqrMagnitude > sqrMoveThreshold)
+            {
+                if (PathRequestManager.Instance.thread) PathThreadManager.RequestPathThread(new PathRequest(transform.position, Player.transform.position, OnPathFound));
+                else PathRequestManager.RequestPath(transform.position, Player.transform.position, OnPathFound);
+                targetPosOld = Player.transform.position;
+            }
+        }
+    }
+
+
+    IEnumerator FollowPath()
+    {
+        bool followingPath = true;
+        int pathIndex = 0;
+        transform.LookAt(path.lookPoints[0]);
+        while (true)
+        {
+            Vector2 pos2D = new Vector2(transform.position.x, transform.position.z);
+            while (path.turnBoundaries[pathIndex].HasCrossedLine(pos2D))
+            {
+                if (pathIndex == path.finishLineIndex)
+                {
+                    followingPath = false;
+                    break;
+                }
+                else pathIndex++;
+            }
+
+            if (followingPath)
+            {
+                Quaternion targetRotation = Quaternion.LookRotation(path.lookPoints[pathIndex] - transform.position);
+                transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, Time.deltaTime * turnSpeed);
+                transform.Translate(Vector3.forward * Time.deltaTime * enemySpd, Space.Self);
+            }
+            yield return null;
+        }
+    }
 
     // Class Methods
     private void EnemyMove()
