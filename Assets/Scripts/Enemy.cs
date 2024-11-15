@@ -36,9 +36,9 @@ public class Enemy : MonoBehaviour
     public List<Perk> perks;
     [SerializeField] private NodeGrid nodegrid;
     [SerializeField] private GameObject Player;
-    private Vector3[] waypoints;
     private int targetIndex;
-    private IEnumerator followPathCoroutine;
+    private IEnumerator currentCoroutine;
+    private IEnumerator oldCoroutine;
 
     private bool isPoisoned;
     Cooldown duration;
@@ -54,9 +54,10 @@ public class Enemy : MonoBehaviour
         timer = new Cooldown((float)2f);
         isGrounded = false;
         EnemyHPScaling();
-        //StartCoroutine(UpdatePath());
-        PathRequestManager.RequestPath(transform.position, Player.transform.position, OnPathFound);
-        followPathCoroutine = null;
+        StartCoroutine(UpdatePath());
+        //PathRequestManager.RequestPath(transform.position, Player.transform.position, OnPathFound);
+        currentCoroutine = null;
+        oldCoroutine = null;
     }
 
     private void Update()
@@ -83,11 +84,11 @@ public class Enemy : MonoBehaviour
     {   
         if (pathSuccessful)
         {
-            this.waypoints = waypoints;
             targetIndex = waypoints.Length - 1;
-            if (followPathCoroutine != null) StopCoroutine(followPathCoroutine);
-            followPathCoroutine = FollowPath();
-            StartCoroutine(followPathCoroutine);
+            currentCoroutine = FollowPath(waypoints);
+            StartCoroutine(currentCoroutine);
+            if (oldCoroutine != null) StopCoroutine(oldCoroutine);
+            oldCoroutine = currentCoroutine;
         }
         return;
     }
@@ -116,7 +117,7 @@ public class Enemy : MonoBehaviour
     }
 
 
-    IEnumerator FollowPath()
+    IEnumerator FollowPath(Vector3[] waypoints)
     {
         Vector3 currentWaypoint = waypoints[0];
         bool followingPath = true;
@@ -196,17 +197,4 @@ public class Enemy : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Walls")) isGrounded = false;
     }
-
-    private void OnDrawGizmos()
-    {
-        for (int i = targetIndex; i<waypoints.Length-1; i++)
-        {
-            Gizmos.color = Color.black;
-            Gizmos.DrawCube(waypoints[i], Vector3.one);
-
-            if (i == targetIndex) Gizmos.DrawLine(transform.position, waypoints[i]);
-            else Gizmos.DrawLine(waypoints[i-1], waypoints[i]);
-        }
-    }
-
 }
