@@ -36,7 +36,9 @@ public class Enemy : MonoBehaviour
     public List<Perk> perks;
     [SerializeField] private NodeGrid nodegrid;
     [SerializeField] private GameObject Player;
-    private Path path;
+    private Vector3[] waypoints;
+    private int targetIndex;
+    private IEnumerator followPathCoroutine;
 
     private bool isPoisoned;
     Cooldown duration;
@@ -47,12 +49,14 @@ public class Enemy : MonoBehaviour
         gunScript = GameObject.Find("Player").GetComponent<GunHandler>();
         perkScript = GameObject.Find("Player").GetComponent<PerkHandler>();
         nodegrid = GameObject.Find("A*").GetComponent<NodeGrid>();
-        Player = GameObject.Find("Player");
+        Player = GameObject.Find("Hider");
         duration = new Cooldown((float)perkScript.PoisonDuration);
         timer = new Cooldown((float)2f);
         isGrounded = false;
         EnemyHPScaling();
-        StartCoroutine(UpdatePath());
+        //StartCoroutine(UpdatePath());
+        PathRequestManager.RequestPath(transform.position, Player.transform.position, OnPathFound);
+        followPathCoroutine = null;
     }
 
     private void Update()
@@ -70,18 +74,20 @@ public class Enemy : MonoBehaviour
     {
         if (!GameManager.Instance.m_gameOver && isGrounded && !MenuMain.Instance.paused)
         {
-            EnemyMove();
+            //EnemyMove();
         }
     }
     
     // Path Finding
     public void OnPathFound(Vector3[] waypoints, bool pathSuccessful)
-    {
+    {   
         if (pathSuccessful)
         {
-            path = new Path(waypoints, transform.position, turnDst);
-            StartCoroutine(FollowPath());
-            StopCoroutine(FollowPath());
+            this.waypoints = waypoints;
+            targetIndex = waypoints.Length - 1;
+            if (followPathCoroutine != null) StopCoroutine(followPathCoroutine);
+            followPathCoroutine = FollowPath();
+            StartCoroutine(followPathCoroutine);
         }
         return;
     }
@@ -112,27 +118,21 @@ public class Enemy : MonoBehaviour
 
     IEnumerator FollowPath()
     {
+        Vector3 currentWaypoint = waypoints[0];
         bool followingPath = true;
-        int pathIndex = 0;
-        transform.LookAt(path.lookPoints[0]);
+        targetIndex = 0;
         while (true)
         {
-            Vector2 pos2D = new Vector2(transform.position.x, transform.position.z);
-            while (path.turnBoundaries[pathIndex].HasCrossedLine(pos2D))
+            if (transform.position == currentWaypoint)
             {
-                if (pathIndex == path.finishLineIndex)
-                {
-                    followingPath = false;
-                    break;
-                }
-                else pathIndex++;
+                targetIndex++;
+                if (targetIndex >= waypoints.Length) yield break;
+                currentWaypoint = waypoints[targetIndex];
             }
 
             if (followingPath)
             {
-                Quaternion targetRotation = Quaternion.LookRotation(path.lookPoints[pathIndex] - transform.position);
-                transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, Time.deltaTime * turnSpeed);
-                transform.Translate(Vector3.forward * Time.deltaTime * enemySpd, Space.Self);
+                transform.position = Vector3.MoveTowards(transform.position, currentWaypoint, enemySpd * Time.deltaTime);
             }
             yield return null;
         }
@@ -195,6 +195,18 @@ public class Enemy : MonoBehaviour
     private void OnCollisionExit(Collision collision)
     {
         if (collision.gameObject.CompareTag("Walls")) isGrounded = false;
+    }
+
+    private void OnDrawGizmos()
+    {
+        for (int i = targetIndex; i<waypoints.Length-1; i++)
+        {
+            Gizmos.color = Color.black;
+            Gizmos.DrawCube(waypoints[i], Vector3.one);
+
+            if (i == targetIndex) Gizmos.DrawLine(transform.position, waypoints[i]);
+            else Gizmos.DrawLine(waypoints[i-1], waypoints[i]);
+        }
     }
 
 }
