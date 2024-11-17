@@ -15,8 +15,6 @@ public class Enemy : MonoBehaviour
     private bool isGrounded;
     private Node currentNode;
     private Node endNode;
-    [SerializeField] private float turnDst = 5.0f;
-    [SerializeField] private float turnSpeed = 3.0f;
     [SerializeField] private float minPathUpdateTime = 0.1f;
     [SerializeField] private float pathUpdateMoveThreshold = 0.4f;
 
@@ -55,7 +53,6 @@ public class Enemy : MonoBehaviour
         isGrounded = false;
         EnemyHPScaling();
         StartCoroutine(UpdatePath());
-        //PathRequestManager.RequestPath(transform.position, Player.transform.position, OnPathFound);
         currentCoroutine = null;
         oldCoroutine = null;
     }
