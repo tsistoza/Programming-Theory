@@ -14,6 +14,7 @@ public class MenuMain : MonoBehaviour
     // UI
     [SerializeField] private TextMeshProUGUI score;
     [SerializeField] private GameObject PlayerMenu;
+    [SerializeField] private GameObject Enemy;
 
 
     private void Awake()

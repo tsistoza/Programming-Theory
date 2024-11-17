@@ -261,6 +261,7 @@ MonoBehaviour:
   paused: 0
   score: {fileID: 2092000058}
   PlayerMenu: {fileID: 1867427320}
+  player: {fileID: 2787786164249887900}
 --- !u!1 &147917576
 GameObject:
   m_ObjectHideFlags: 0
@@ -3978,6 +3979,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 01472830b345e874595d1b7cdb3ab7fd, type: 3}
+--- !u!1 &2787786164249887900 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1733764387283733222, guid: 01472830b345e874595d1b7cdb3ab7fd, type: 3}
+  m_PrefabInstance: {fileID: 2787786164249887899}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &8579138648652213140
 PrefabInstance:
   m_ObjectHideFlags: 0

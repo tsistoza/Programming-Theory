@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
+using Unity.VisualScripting;
 using UnityEngine;
 
 /// <summary>
@@ -13,8 +14,6 @@ public class Enemy : MonoBehaviour
     // Modifiers
     [SerializeField] private float enemySpd = 1.0f;
     private bool isGrounded;
-    private Node currentNode;
-    private Node endNode;
     [SerializeField] private float minPathUpdateTime = 0.1f;
     [SerializeField] private float pathUpdateMoveThreshold = 0.4f;
 
@@ -59,20 +58,14 @@ public class Enemy : MonoBehaviour
 
     private void Update()
     {
-        if (isPoisoned)
-        {
-            PoisonDamage(duration, timer);
-        }
+        if (isPoisoned) PoisonDamage(duration, timer);
 
-        currentNode = nodegrid.NodeFromWorldPoint(transform.position);
-        endNode = nodegrid.NodeFromWorldPoint(Player.transform.position);
-    }
-
-    void FixedUpdate()
-    {
-        if (!GameManager.Instance.m_gameOver && isGrounded && !MenuMain.Instance.paused)
+        if (MenuMain.Instance.paused && (currentCoroutine != null || oldCoroutine != null))
         {
-            //EnemyMove();
+            currentCoroutine = null;
+            oldCoroutine = null;
+            StopAllCoroutines();
+            StartCoroutine(StartAllCoroutines());
         }
     }
     
@@ -88,6 +81,13 @@ public class Enemy : MonoBehaviour
             oldCoroutine = currentCoroutine;
         }
         return;
+    }
+
+    // After Pausing All Coroutines are stopped
+    IEnumerator StartAllCoroutines()
+    {
+        yield return new WaitUntil(() => MenuMain.Instance.paused == false);
+        StartCoroutine(UpdatePath());
     }
 
     IEnumerator UpdatePath()
