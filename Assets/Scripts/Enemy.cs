@@ -46,7 +46,7 @@ public class Enemy : MonoBehaviour
         gunScript = GameObject.Find("Player").GetComponent<GunHandler>();
         perkScript = GameObject.Find("Player").GetComponent<PerkHandler>();
         nodegrid = GameObject.Find("A*").GetComponent<NodeGrid>();
-        Player = GameObject.Find("Hider");
+        Player = GameObject.Find("Player");
         duration = new Cooldown((float)perkScript.PoisonDuration);
         timer = new Cooldown((float)2f);
         isGrounded = false;
