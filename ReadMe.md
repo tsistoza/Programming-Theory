@@ -1,4 +1,4 @@
-# Little Arcade Survival Game
+# Little Arcade Survival Game (HIATUS - LEARNING BLENDER)
 * Started on Sept. 30, 2024
 * Basis is very simple enemies will spawn and all you have to do is survive
 # Concept
